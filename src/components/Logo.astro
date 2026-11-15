@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo-tejiendo-suenos.png';
+
+interface Props { class?: string; alto?: number }
+const { class: className = '', alto = 56 } = Astro.props;
+---
+<Image src={logo} alt="Tejiendo Sueños" height={alto} densities={[1, 2, 3]} format="webp" class={`logo ${className}`} loading="eager" />
+
+<style>
+  .logo { width: auto; display: block; }
+</style>

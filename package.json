@@ -1,0 +1,16 @@
+{
+  "name": "tejiendo-suenos",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/baloo-2": "^5.3.0",
+    "@fontsource/nunito-sans": "^5.3.0",
+    "astro": "^5.18.2",
+    "sharp": "^0.35.5"
+  }
+}

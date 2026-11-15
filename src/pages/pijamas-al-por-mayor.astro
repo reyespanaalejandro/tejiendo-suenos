@@ -1,0 +1,463 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { NEGOCIO, whatsappUrl, MENSAJE_MAYOR } from '../lib/negocio';
+
+import hero from '../assets/fotos/familia-mapaches.webp';
+import familiar from '../assets/fotos/familia-hipopotamo.webp';
+import pareja from '../assets/fotos/pareja-ejecutiva-azul.webp';
+import navidad from '../assets/fotos/familia-navidad-pinguinos.webp';
+import dama from '../assets/fotos/dama-camisero-azul.webp';
+import caballero from '../assets/fotos/caballero-manga-larga-gris.webp';
+import ninos from '../assets/fotos/nina-caballito-de-mar.webp';
+import bata from '../assets/fotos/bata-gato.webp';
+import short from '../assets/fotos/dama-short-blanco.webp';
+import flatPinguinos from '../assets/fotos/pinguinos-flat.webp';
+import familiaBebida from '../assets/fotos/familia-bebida-azul.webp';
+
+const wa = whatsappUrl(MENSAJE_MAYOR);
+
+const lineas = [
+  { img: familiar, titulo: 'Familiares', texto: 'El mismo diseño para mamá, papá e hijos. Es lo que más se vende.', alt: 'Familia con pijamas iguales de hipopótamo en tonos azul petróleo' },
+  { img: navidad, titulo: 'Navideñas', texto: 'Colección de temporada para vestir igual a toda la familia.', alt: 'Familia con pijamas navideñas iguales con estampado de pingüinos' },
+  { img: pareja, titulo: 'Pareja', texto: 'Juegos coordinados para ella y para él.', alt: 'Pareja con pijamas de algodón en azul oscuro y gris' },
+  { img: dama, titulo: 'Dama', texto: 'Camiseros, joggers y diseños divertidos. Tallas S a XL.', alt: 'Mujer con pijama camisero azul de botones' },
+  { img: short, titulo: 'Short', texto: 'Pijamas cortas para clima cálido, de dama y caballero.', alt: 'Mujer con pijama de camiseta blanca y short negro' },
+  { img: caballero, titulo: 'Caballero', texto: 'Manga larga, manga corta y náuticas. Tallas S a XL.', alt: 'Hombre con pijama de manga larga gris y pantalón azul oscuro' },
+  { img: ninos, titulo: 'Niños y niñas', texto: 'Tallas 2, 4, 6, 8, 10, 12, 14 y 16.', alt: 'Niña con pijama azul claro estampada con un caballito de mar' },
+  { img: bata, titulo: 'Batas', texto: 'Batas de dormir con diseños tiernos.', alt: 'Mujer con bata de dormir lila con estampado de gato' },
+];
+
+const razones = [
+  { titulo: 'Tela certificada TEKS', texto: 'Trabajamos solo con algodón colombiano con sello TEKS. Es hipoalergénico, no se estira ni se encoge, y la composición que dice la etiqueta es la real.' },
+  { titulo: 'Estampados que no se caen', texto: 'Serigrafía con tintas certificadas sin plomo. El diseño queda integrado a la tela y aguanta lavada tras lavada.' },
+  { titulo: 'Costuras para años', texto: 'Puntada de seguridad, hilo nuevo y agujas para algodón doble punto. Tenemos pijamas de 8 años que siguen en buen estado.' },
+  { titulo: 'Diseños propios que se venden solos', texto: 'Nuestro diseñador crea colecciones nuevas cada tres meses. Son diseños tiernos, para toda la familia, que no vas a encontrar en el almacén de al lado.' },
+];
+
+const pasos = [
+  { n: '1', titulo: 'Escríbenos', texto: 'Cuéntanos por WhatsApp qué negocio tienes y en qué ciudad estás.' },
+  { n: '2', titulo: 'Recibe el catálogo', texto: 'Te enviamos las referencias disponibles y los precios mayoristas.' },
+  { n: '3', titulo: 'Arma tu pedido por curvas', texto: 'Eliges las referencias y los colores. Cada curva trae todas las tallas.' },
+  { n: '4', titulo: 'Te lo enviamos', texto: 'Despachamos a toda Colombia con Interrapidísimo, o lo recoges en Bogotá.' },
+];
+
+const ventajas = [
+  ['Ves y tocas la tela antes de comprar', 'En nuestra tienda de Bulevar Niza o con visita a la fábrica.'],
+  ['Composición certificada', 'Algodón con sello TEKS: lo que dice la etiqueta es lo que lleva la prenda.'],
+  ['Tintas sin plomo', 'Estampados con tintas certificadas, seguros para niños.'],
+  ['Reposición rápida', 'Fabricamos en Bogotá: no esperas semanas por un contenedor.'],
+  ['Tallas reales y constantes', 'La talla M de hoy es igual a la del próximo pedido.'],
+  ['Una persona al otro lado', 'Hablas con quien conoce el producto, antes y después de la venta.'],
+  ['Factura electrónica', 'Para que tu negocio tenga todo en regla.'],
+];
+
+const preguntas = [
+  { q: '¿Qué es una curva y cuál es el pedido mínimo?', a: 'Una curva es una referencia en todas sus tallas: en adultos S, M, L y XL, y en niños de la 2 a la 16. Al por mayor trabajamos por curvas completas y tú eliges los colores. Escríbenos y te contamos el mínimo según las referencias que te interesen.' },
+  { q: '¿Hacen envíos fuera de Bogotá?', a: 'Sí, enviamos a toda Colombia con Interrapidísimo. En Bogotá también puedes recoger tu pedido.' },
+  { q: '¿Puedo ver los productos antes de hacer el pedido?', a: `Claro. Puedes visitarnos en nuestra tienda del ${NEGOCIO.tienda.centroComercial} (${NEGOCIO.tienda.local}) o coordinar una visita a la fábrica en Bogotá.` },
+  { q: '¿Cómo puedo pagar?', a: 'Por transferencia, Bre-B, Nequi, Daviplata o link de pago con tarjeta.' },
+  { q: '¿Entregan factura?', a: 'Sí, emitimos factura electrónica.' },
+  { q: '¿Hacen pedidos personalizados o con el logo de mi empresa?', a: 'Sí. Podemos personalizar con nombres, iniciales o el diseño que necesites. Cuéntanos tu idea por WhatsApp y revisamos tiempos y costos.' },
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ClothingStore',
+  name: NEGOCIO.nombre,
+  description: 'Fábrica de pijamas en Bogotá. Venta al detal y al por mayor.',
+  url: new URL('/pijamas-al-por-mayor', Astro.site).toString(),
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${NEGOCIO.tienda.direccion}, ${NEGOCIO.tienda.centroComercial}, ${NEGOCIO.tienda.local}`,
+    addressLocality: 'Bogotá',
+    addressCountry: 'CO',
+  },
+  sameAs: [NEGOCIO.instagram],
+};
+---
+<Base
+  title="Pijamas al por mayor directo de fábrica en Bogotá | Tejiendo Sueños"
+  description="Fábrica de pijamas en Bogotá. Surte tu negocio con pijamas de algodón certificado TEKS, diseños propios y tintas sin plomo. Envíos a toda Colombia."
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <header class="cabecera">
+    <div class="contenedor cabecera-in">
+      <a href="/pijamas-al-por-mayor" class="cabecera-logo"><Logo /></a>
+      <nav class="menu" aria-label="Secciones">
+        <a href="#por-que">Por qué nosotros</a>
+        <a href="#lineas">Líneas</a>
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#preguntas">Preguntas</a>
+      </nav>
+      <a class="boton boton-wa cabecera-cta" href={wa} data-wa="cabecera" target="_blank" rel="noopener">Cotizar por mayor</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="contenedor hero-grid">
+        <div class="hero-texto">
+          <span class="antetitulo">Fábrica colombiana · Venta al por mayor</span>
+          <h1>Pijamas al por mayor, directo de nuestra fábrica en Bogotá</h1>
+          <p class="hero-sub">
+            Surte tu tienda con pijamas de algodón certificado, diseños propios para toda la familia y
+            costuras hechas para durar. Calidad que tus clientes sienten apenas las tocan.
+          </p>
+          <div class="hero-ctas">
+            <a class="boton boton-wa" href={wa} data-wa="hero" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>
+              Pide el catálogo mayorista
+            </a>
+            <a class="boton boton-borde" href="#como-funciona">Cómo funciona</a>
+          </div>
+        </div>
+        <div class="hero-foto">
+          <Picture src={hero} formats={['avif']} fallbackFormat="webp" widths={[640, 960, 1400]} sizes="(min-width: 960px) 560px, 100vw" alt="Familia sentada con pijamas iguales de cuadros rojos, fabricadas por Tejiendo Sueños" loading="eager" fetchpriority="high" />
+        </div>
+      </div>
+      <ul class="sellos contenedor" aria-label="Lo que garantiza cada pijama">
+        <li><strong>Tela TEKS</strong><span>algodón colombiano hipoalergénico</span></li>
+        <li><strong>Sin plomo</strong><span>tintas certificadas</span></li>
+        <li><strong>Desde {NEGOCIO.fabricaDesde}</strong><span>fabricando en Bogotá</span></li>
+        <li><strong>Toda Colombia</strong><span>envíos con Interrapidísimo</span></li>
+      </ul>
+    </section>
+
+    <!-- POR QUÉ -->
+    <section class="seccion" id="por-que">
+      <div class="contenedor">
+        <span class="antetitulo">Por qué surtir con nosotros</span>
+        <h2>Lo que tus clientes van a notar</h2>
+        <p class="intro">Una pijama que dura se vuelve a comprar en la misma tienda. Esto es lo que cuidamos en cada prenda que sale de la fábrica.</p>
+        <div class="razones">
+          {razones.map((r, i) => (
+            <article class="razon">
+              <span class="razon-n">0{i + 1}</span>
+              <h3>{r.titulo}</h3>
+              <p>{r.texto}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- LÍNEAS -->
+    <section class="seccion lineas-sec" id="lineas">
+      <div class="contenedor">
+        <span class="antetitulo">Lo que fabricamos</span>
+        <h2>Líneas para surtir tu tienda</h2>
+        <p class="intro">Adultos en tallas S, M, L y XL; niños de la 2 a la 16. También tenemos pantuflas (tallas 35 a 45) y medias de marca colombiana.</p>
+        <div class="lineas">
+          {lineas.map((l) => (
+            <article class="linea">
+              <div class="linea-foto">
+                <Picture src={l.img} formats={['avif']} fallbackFormat="webp" widths={[360, 540, 720]} sizes="(min-width: 960px) 270px, (min-width: 600px) 45vw, 90vw" alt={l.alt} />
+              </div>
+              <h3>{l.titulo}</h3>
+              <p>{l.texto}</p>
+            </article>
+          ))}
+        </div>
+        <div class="licencias">
+          <div>
+            <h3>Superhéroes y equipos de fútbol</h3>
+            <p>También fabricamos pijamas con diseños de superhéroes y de los equipos de fútbol, para niños y adultos. A los hombres y a los niños les encantan. Pídenos las referencias disponibles por WhatsApp.</p>
+          </div>
+          <a class="boton boton-wa" href={whatsappUrl('Hola, Tejiendo Sueños. Tengo un negocio y me interesan las pijamas de superhéroes y de equipos de fútbol al por mayor. ¿Qué referencias tienen?')} data-wa="licencias" target="_blank" rel="noopener">Ver referencias</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CÓMO FUNCIONA -->
+    <section class="seccion" id="como-funciona">
+      <div class="contenedor">
+        <span class="antetitulo">Cómo funciona</span>
+        <h2>Tu pedido por mayor en cuatro pasos</h2>
+        <ol class="pasos">
+          {pasos.map((p) => (
+            <li class="paso">
+              <span class="paso-n">{p.n}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
+        <div class="curva">
+          <div class="curva-texto">
+            <h3>¿Qué es una curva?</h3>
+            <p>Es una referencia en todas sus tallas. Así tu tienda siempre tiene la talla que busca cada cliente.</p>
+          </div>
+          <div class="curva-tallas">
+            <div><span class="curva-label">Adultos</span><span class="talla">S</span><span class="talla">M</span><span class="talla">L</span><span class="talla">XL</span></div>
+            <div><span class="curva-label">Niños</span><span class="talla">2</span><span class="talla">4</span><span class="talla">6</span><span class="talla">8</span><span class="talla">10</span><span class="talla">12</span><span class="talla">14</span><span class="talla">16</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTORIA / PERSONAS -->
+    <section class="seccion historia">
+      <div class="contenedor historia-grid">
+        <div class="historia-foto">
+          <Picture src={flatPinguinos} formats={['avif']} fallbackFormat="webp" widths={[480, 800, 1200]} sizes="(min-width: 960px) 520px, 100vw" alt="Juego de pijamas familiares azules y de cuadros con estampado de pingüinos" />
+        </div>
+        <div class="historia-texto">
+          <span class="antetitulo">Quiénes somos</span>
+          <h2>Una fábrica familiar que empezó vendiéndole a negocios</h2>
+          <p>
+            Tejiendo Sueños nació en {NEGOCIO.fabricaDesde}, en el apartamento de una familia en Bogotá, con las primeras
+            pijamas que Rocío vendía tienda por tienda. El nombre viene de ese momento: el deseo de salir adelante.
+          </p>
+          <p>
+            Hoy la fábrica sigue siendo familiar. Las costureras son madres cabeza de familia que conocen su oficio,
+            nuestro cortador revisa la calidad de cada lote y los hilos sueltos se cortan a mano, uno por uno.
+            Las prendas con cualquier defecto no se venden: se donan.
+          </p>
+          <p class="historia-firma">Trabajamos con amor y con un propósito: hacer país y generar empleo.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARACIÓN -->
+    <section class="seccion" id="comparacion">
+      <div class="contenedor comp-grid">
+        <div>
+          <span class="antetitulo">Fabricación nacional</span>
+          <h2>Lo que ganas comprándole a una fábrica colombiana</h2>
+          <p class="intro">Una pijama importada puede verse bien en la foto. La diferencia aparece al tocarla, después de lavarla y cuando necesitas reponer.</p>
+          <div class="comp-foto">
+            <Picture src={familiaBebida} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 960px) 380px, 90vw" alt="Familia con pijamas iguales azul oscuro y pantalón de cuadros" />
+          </div>
+        </div>
+        <ul class="ventajas">
+          {ventajas.map(([t, d]) => (
+            <li>
+              <span class="check" aria-hidden="true">✓</span>
+              <div><strong>{t}</strong><span>{d}</span></div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- PREGUNTAS -->
+    <section class="seccion preguntas-sec" id="preguntas">
+      <div class="contenedor preguntas-grid">
+        <div>
+          <span class="antetitulo">Preguntas frecuentes</span>
+          <h2>Antes de hacer tu pedido</h2>
+          <p class="intro">Si tu pregunta no está aquí, escríbenos. Te responde una persona del equipo.</p>
+        </div>
+        <div class="preguntas">
+          {preguntas.map((p) => (
+            <details>
+              <summary>{p.q}</summary>
+              <p>{p.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="seccion contacto" id="cotizar">
+      <div class="contenedor contacto-grid">
+        <div class="contacto-texto">
+          <h2>Cuéntanos de tu negocio</h2>
+          <p>Llena estos datos y se abre WhatsApp con tu mensaje listo para enviar. Te respondemos con el catálogo y los precios mayoristas.</p>
+          <ul class="contacto-datos">
+            <li><strong>Tienda:</strong> {NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}, {NEGOCIO.tienda.zona}. <a href={NEGOCIO.tienda.mapsUrl} target="_blank" rel="noopener">Ver mapa</a></li>
+            <li><strong>WhatsApp:</strong> {NEGOCIO.whatsappVisible}</li>
+            <li><strong>Horario:</strong> {NEGOCIO.horario.map((h) => `${h.dias} ${h.horas}`).join(' · ')}</li>
+          </ul>
+        </div>
+        <form class="form" id="form-mayor" data-wa-number={NEGOCIO.whatsapp}>
+          <label>Tu nombre<input name="nombre" required autocomplete="name" /></label>
+          <label>Nombre del negocio<input name="negocio" autocomplete="organization" /></label>
+          <label>Ciudad<input name="ciudad" required autocomplete="address-level2" /></label>
+          <label>Tipo de negocio
+            <select name="tipo">
+              <option>Tienda o boutique</option>
+              <option>Venta por catálogo</option>
+              <option>Tienda en línea</option>
+              <option>Empresa o institución</option>
+              <option>Otro</option>
+            </select>
+          </label>
+          <label><span>¿Qué te interesa? <span class="opcional">(opcional)</span></span><textarea name="interes" rows="3" placeholder="Ej.: pijamas familiares y de dama"></textarea></label>
+          <button class="boton boton-wa" type="submit">Enviar por WhatsApp</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie-in">
+      <Logo alto={64} />
+      <p>Fábrica de pijamas en Bogotá desde {NEGOCIO.fabricaDesde}. Venta al detal y al por mayor.</p>
+      <p><a href={NEGOCIO.instagram} target="_blank" rel="noopener">Instagram</a></p>
+    </div>
+  </footer>
+
+  <a class="wa-flotante" href={wa} data-wa="flotante" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp para comprar al por mayor">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>
+  </a>
+
+  <script>
+    // Medición: cada clic a WhatsApp envía un evento a GA4 / Google Ads cuando la etiqueta esté instalada.
+    const medir = (origen: string) => {
+      const w = window as unknown as { gtag?: (...a: unknown[]) => void };
+      w.gtag?.('event', 'contacto_whatsapp_mayor', { origen });
+    };
+    document.querySelectorAll<HTMLAnchorElement>('a[data-wa]').forEach((a) =>
+      a.addEventListener('click', () => medir(a.dataset.wa || ''))
+    );
+
+    const form = document.getElementById('form-mayor') as HTMLFormElement | null;
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const v = (k: string) => String(d.get(k) || '').trim();
+      const lineas = [
+        'Hola, Tejiendo Sueños. Quiero comprar pijamas al por mayor.',
+        `Nombre: ${v('nombre')}`,
+        v('negocio') && `Negocio: ${v('negocio')}`,
+        `Ciudad: ${v('ciudad')}`,
+        `Tipo de negocio: ${v('tipo')}`,
+        v('interes') && `Me interesa: ${v('interes')}`,
+        '¿Me envían el catálogo y los precios mayoristas?',
+      ].filter(Boolean);
+      medir('formulario');
+      window.open(`https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(lineas.join('\n'))}`, '_blank', 'noopener');
+    });
+  </script>
+</Base>
+
+<style>
+  /* Cabecera */
+  .cabecera { position: sticky; top: 0; z-index: 20; background: rgba(255, 250, 245, .92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borde); }
+  .cabecera-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; }
+  .cabecera-logo { text-decoration: none; }
+  .menu { display: none; gap: 1.6rem; }
+  .menu a { color: var(--texto); text-decoration: none; font-weight: 700; font-size: .95rem; }
+  .menu a:hover { color: var(--magenta); }
+  .cabecera-cta { min-height: 44px; padding: .5rem 1.1rem; font-size: 1rem; }
+  @media (min-width: 960px) { .menu { display: flex; } }
+  @media (max-width: 420px) { .cabecera-cta { display: none; } }
+
+  /* Hero */
+  .hero { background: radial-gradient(1200px 500px at 85% 0%, var(--lila-2), transparent 60%), var(--lila); padding: clamp(36px, 6vw, 72px) 0 0; overflow: hidden; }
+  .hero-grid { display: grid; gap: 2.2rem; align-items: center; }
+  .hero-sub { font-size: 1.2rem; color: var(--texto-suave); max-width: 560px; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; }
+  .hero-foto :global(img) { border-radius: 28px 28px 28px 120px; box-shadow: var(--sombra); width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+
+  .sellos { list-style: none; padding: 0; margin-top: clamp(32px, 5vw, 56px); margin-bottom: 0; display: grid; grid-template-columns: repeat(2, 1fr);
+    background: #fff; border-radius: var(--radio) var(--radio) 0 0; border: 1px solid var(--borde); border-bottom: 0; }
+  .sellos li { padding: 1.1rem 1.2rem; display: flex; flex-direction: column; border-bottom: 1px solid var(--borde); }
+  .sellos li:nth-child(odd) { border-right: 1px solid var(--borde); }
+  .sellos strong { font-family: var(--f-titulo); font-size: 1.25rem; color: var(--magenta); line-height: 1.2; }
+  .sellos span { font-size: .92rem; color: var(--texto-suave); }
+  @media (min-width: 800px) {
+    .sellos { grid-template-columns: repeat(4, 1fr); }
+    .sellos li { border-bottom: 0; border-right: 1px solid var(--borde); }
+    .sellos li:last-child { border-right: 0; }
+  }
+
+  /* Razones */
+  .razones { display: grid; gap: 1rem; margin-top: 2.2rem; }
+  .razon { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.6rem; }
+  .razon-n { font-family: var(--f-titulo); font-weight: 800; color: var(--lila-2); font-size: 2.6rem; line-height: 1; -webkit-text-stroke: 1.5px var(--magenta); }
+  .razon h3 { margin-top: .6rem; }
+  .razon p { color: var(--texto-suave); margin: 0; }
+  @media (min-width: 700px) { .razones { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .razones { grid-template-columns: repeat(4, 1fr); } }
+
+  /* Líneas */
+  .lineas-sec { background: #fff; }
+  .lineas { display: grid; gap: 1.4rem 1.1rem; grid-template-columns: repeat(2, 1fr); margin-top: 2.2rem; }
+  .linea-foto { border-radius: 20px; overflow: hidden; background: var(--lila); aspect-ratio: 4 / 5; }
+  .linea-foto :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transition: transform .4s ease; }
+  .linea:hover .linea-foto :global(img) { transform: scale(1.03); }
+  .linea h3 { margin: .8rem 0 .2rem; }
+  .linea p { font-size: .95rem; color: var(--texto-suave); margin: 0; }
+  @media (min-width: 960px) { .lineas { grid-template-columns: repeat(4, 1fr); } }
+  .licencias { margin-top: 2rem; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem;
+    padding: 1.6rem 1.8rem; border-radius: var(--radio); background: var(--ciruela); color: #f5ecf4; }
+  .licencias > div { flex: 1 1 420px; min-width: 0; }
+  .licencias h3 { color: #fff; margin-bottom: .35rem; }
+  .licencias p { margin: 0; }
+
+  /* Pasos */
+  .pasos { list-style: none; padding: 0; margin: 2.2rem 0 0; display: grid; gap: 1rem; counter-reset: p; }
+  .paso { position: relative; padding: 1.4rem 1.4rem 1.2rem; border-radius: var(--radio); background: var(--lila); }
+  .paso-n { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--magenta); color: #fff; font-family: var(--f-titulo); font-weight: 800; font-size: 1.3rem; margin-bottom: .8rem; }
+  .paso p { margin: 0; color: var(--texto-suave); }
+  @media (min-width: 760px) { .pasos { grid-template-columns: repeat(4, 1fr); } }
+
+  .curva { margin-top: 1.4rem; display: grid; gap: 1.2rem; align-items: center; padding: 1.6rem; border: 2px dashed var(--lila-2); border-radius: var(--radio); }
+  .curva-texto p { margin: 0; color: var(--texto-suave); }
+  .curva-tallas { display: grid; gap: .7rem; }
+  .curva-tallas > div { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+  .curva-label { font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); width: 72px; }
+  .talla { display: grid; place-items: center; min-width: 40px; height: 40px; padding: 0 .5rem; border-radius: 12px; background: #fff; border: 1.5px solid var(--magenta); color: var(--magenta); font-weight: 700; }
+  @media (min-width: 860px) { .curva { grid-template-columns: 1fr 1.3fr; } }
+
+  /* Historia */
+  .historia { background: var(--ciruela); color: #f5ecf4; }
+  .historia h2 { color: #fff; }
+  .historia .antetitulo { color: #f1a7d9; }
+  .historia-grid { display: grid; gap: 2.4rem; align-items: center; }
+  .historia-foto :global(img) { border-radius: 120px 28px 28px 28px; background: #fff; width: 100%; }
+  .historia-firma { font-family: var(--f-titulo); font-size: 1.35rem; color: #f1a7d9; margin-top: 1.4rem; }
+  @media (min-width: 960px) { .historia-grid { grid-template-columns: 1fr 1.1fr; } }
+
+  /* Comparación */
+  .comp-grid { display: grid; gap: 2rem; align-items: start; }
+  .comp-foto { display: none; margin-top: 1.6rem; }
+  .comp-foto :global(img) { border-radius: var(--radio); max-height: 420px; width: auto; }
+  .ventajas { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }
+  .ventajas li { display: flex; gap: .9rem; align-items: flex-start; background: #fff; border: 1px solid var(--borde); border-radius: 18px; padding: 1rem 1.1rem; }
+  .ventajas strong { display: block; font-family: var(--f-titulo); font-weight: 600; font-size: 1.12rem; color: var(--ciruela); line-height: 1.25; }
+  .ventajas span { color: var(--texto-suave); font-size: .97rem; }
+  .check { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--magenta); color: #fff !important; font-weight: 800; font-size: .95rem !important; }
+  @media (min-width: 960px) { .comp-grid { grid-template-columns: .9fr 1.1fr; } .comp-foto { display: block; } }
+
+  /* Preguntas */
+  .preguntas-sec { background: #fff; }
+  .preguntas-grid { display: grid; gap: 1.6rem; }
+  details { border-bottom: 1px solid var(--borde); padding: 1.1rem 0; }
+  summary { cursor: pointer; font-family: var(--f-titulo); font-weight: 600; font-size: 1.2rem; color: var(--ciruela); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--magenta); font-size: 1.5rem; line-height: 1; }
+  details[open] summary::after { content: '–'; }
+  details p { margin: .7rem 0 0; color: var(--texto-suave); }
+  @media (min-width: 960px) { .preguntas-grid { grid-template-columns: .8fr 1.2fr; } }
+
+  /* Contacto */
+  .contacto { background: linear-gradient(160deg, var(--lila), var(--lila-2)); }
+  .contacto-grid { display: grid; gap: 2rem; align-items: start; }
+  .contacto-datos { padding-left: 1.1rem; color: var(--texto-suave); }
+  .contacto-datos li { margin-bottom: .5rem; }
+  .form { background: #fff; border-radius: var(--radio); padding: 1.6rem; box-shadow: var(--sombra); display: grid; gap: 1rem; }
+  .form label { display: grid; gap: .35rem; font-weight: 700; font-size: .95rem; }
+  .opcional { font-weight: 400; color: var(--texto-suave); }
+  .form input, .form select, .form textarea { font: inherit; padding: .75rem .9rem; border-radius: 12px; border: 1.5px solid var(--borde); background: var(--crema); width: 100%; }
+  .form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--magenta); box-shadow: 0 0 0 3px rgba(163, 25, 124, .15); }
+  .form .boton { width: 100%; }
+  @media (min-width: 960px) { .contacto-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* Pie */
+  .pie { padding: 2.4rem 0 6rem; border-top: 1px solid var(--borde); }
+  .pie-in { display: grid; gap: .6rem; justify-items: start; color: var(--texto-suave); font-size: .95rem; }
+  .pie p { margin: 0; }
+
+  /* WhatsApp flotante */
+  .wa-flotante { position: fixed; right: 16px; bottom: 16px; z-index: 30; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--verde-wa); color: #fff; box-shadow: 0 12px 28px -10px rgba(0, 0, 0, .45); }
+  .wa-flotante svg { width: 32px; height: 32px; }
+</style>
