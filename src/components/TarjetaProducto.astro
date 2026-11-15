@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import { foto, pesos, type Producto } from '../lib/catalogo';
+import SinFoto from './SinFoto.astro';
 
 interface Props { p: Producto; prioridad?: boolean }
 const { p, prioridad = false } = Astro.props;
@@ -8,7 +9,7 @@ const etiqueta = p.tallaje === 'familia' ? 'Para toda la familia' : p.tallaje ==
 ---
 <a class="tarjeta" href={`/producto/${p.slug}`}>
   <div class="tarjeta-foto">
-    <Picture src={foto(p.fotos[0])} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 640]} sizes="(min-width: 1060px) 260px, (min-width: 640px) 30vw, 46vw" alt={p.alt} loading={prioridad ? 'eager' : 'lazy'} />
+    {p.fotos.length ? <Picture src={foto(p.fotos[0])} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 640]} sizes="(min-width: 1060px) 260px, (min-width: 640px) 30vw, 46vw" alt={p.alt} loading={prioridad ? 'eager' : 'lazy'} /> : <SinFoto texto="Fotos por WhatsApp" />}
     <span class="tarjeta-etiqueta">{etiqueta}</span>
   </div>
   <h3>{p.nombre}</h3>

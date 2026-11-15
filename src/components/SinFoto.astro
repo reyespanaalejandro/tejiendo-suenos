@@ -1,0 +1,12 @@
+---
+interface Props { texto?: string; class?: string }
+const { texto = 'Foto pendiente', class: c = '' } = Astro.props;
+---
+<div class={`sin-foto ${c}`} role="img" aria-label={texto}>
+  <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="3"/><path d="M32 18l9 6.5-3.4 10.6H26.4L23 24.5zM32 18v-8M41 24.5l8-3M37.6 35.1l5 7.4M26.4 35.1l-5 7.4M23 24.5l-8-3" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/></svg>
+  <span>{texto}</span>
+</div>
+<style>
+  .sin-foto { width: 100%; height: 100%; min-height: 220px; display: grid; place-content: center; justify-items: center; gap: .6rem; background: repeating-linear-gradient(45deg, var(--lila), var(--lila) 14px, var(--lila-2) 14px, var(--lila-2) 28px); color: var(--magenta); font-weight: 700; text-align: center; padding: 1rem; }
+  .sin-foto svg { width: 64px; height: 64px; }
+</style>

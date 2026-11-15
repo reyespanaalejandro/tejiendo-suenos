@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
-import Licencias from '../components/Licencias.astro';
 import Sellos from '../components/Sellos.astro';
 import { LINEAS, PRODUCTOS } from '../lib/catalogo';
 ---
@@ -21,7 +20,6 @@ import { LINEAS, PRODUCTOS } from '../lib/catalogo';
       <div class="rejilla-productos">
         {PRODUCTOS.map((p, i) => <TarjetaProducto p={p} prioridad={i < 4} />)}
       </div>
-      <div class="lic"><Licencias /></div>
       <div class="lic"><Sellos /></div>
     </div>
   </section>

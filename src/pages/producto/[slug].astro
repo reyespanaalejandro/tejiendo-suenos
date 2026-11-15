@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import TarjetaProducto from '../../components/TarjetaProducto.astro';
+import SinFoto from '../../components/SinFoto.astro';
 import { PRODUCTOS, TALLAS, LINEAS, foto, pesos, type Producto } from '../../lib/catalogo';
 import { NEGOCIO, ENVIOS } from '../../lib/negocio';
 
@@ -30,6 +31,7 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
   <section class="seccion ficha">
     <div class="contenedor ficha-grid">
       <div class="galeria">
+        {p.fotos.length === 0 && <SinFoto texto="Pídenos las fotos de tu equipo por WhatsApp" class="galeria-vacia" />}
         {p.fotos.map((f, i) => (
           <Picture src={foto(f)} formats={['avif']} fallbackFormat="webp" widths={[480, 720, 1000]} sizes="(min-width: 960px) 560px, 100vw" alt={i === 0 ? p.alt : `${p.nombre}, otra foto`} loading={i === 0 ? 'eager' : 'lazy'} />
         ))}
@@ -41,10 +43,14 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
         <p class="precio">{p.precio ? <><strong>{pesos(p.precio)}</strong> {unidad}</> : <span class="pendiente">Precio por confirmar</span>}</p>
         <p class="desc">{p.descripcion}</p>
         <ul class="puntos">
-          {p.tallaje !== 'calzado' && <li>Algodón colombiano certificado TEKS, hipoalergénico</li>}
-          {p.tallaje !== 'calzado' && <li>Estampado en serigrafía con tintas sin plomo</li>}
-          {p.tallaje !== 'calzado' && <li>Con bolsillos</li>}
-          <li>Hecho en Bogotá por Tejiendo Sueños</li>
+          {p.propia === false
+            ? p.puntos?.map((x) => <li>{x}</li>)
+            : <>
+                {p.tallaje !== 'calzado' && <li>Algodón colombiano certificado TEKS, hipoalergénico</li>}
+                {p.tallaje !== 'calzado' && <li>Estampado en serigrafía con tintas sin plomo</li>}
+                {p.tallaje !== 'calzado' && <li>Con bolsillos</li>}
+                <li>Hecho en Bogotá por Tejiendo Sueños</li>
+              </>}
         </ul>
 
         <form class="pedido" id="pedido" data-producto={p.nombre} data-precio={p.precio ?? ''} data-unidad={unidad} data-wa={NEGOCIO.whatsapp}>
@@ -76,8 +82,8 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
             <p>{ENVIOS.bogota}</p>
           </details>
           <details>
-            <summary>Cambios y garantía</summary>
-            <p>Puedes cambiar la talla o, si la prenda tiene un defecto, te la cambiamos. No hacemos devolución de dinero. Las costuras tienen garantía de por vida y el estampado, de dos años, siempre que la prenda se haya lavado bien.</p>
+            <summary>{p.propia === false ? 'Cambios' : 'Cambios y garantía'}</summary>
+            <p>Puedes cambiar la talla o, si la prenda tiene un defecto, te la cambiamos. No hacemos devolución de dinero.{p.propia !== false && ' Las costuras tienen garantía de por vida y el estampado, de dos años, siempre que la prenda se haya lavado bien.'}</p>
             <p><a href="/envios-cambios-y-garantia">Ver la política completa</a></p>
           </details>
           <details>
@@ -154,6 +160,7 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
   .ficha { padding-top: clamp(24px, 4vw, 48px); }
   .ficha-grid { display: grid; gap: 2rem; align-items: start; }
   .galeria { display: grid; gap: .8rem; }
+  .galeria :global(.galeria-vacia) { border-radius: 24px; aspect-ratio: 4 / 5; }
   .galeria :global(img) { width: 100%; border-radius: 24px; background: var(--lila); }
   .info { min-width: 0; }
   .info h1 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: .3rem; }

@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Sellos from '../components/Sellos.astro';
+import SinFoto from '../components/SinFoto.astro';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
 import { LINEAS, PRODUCTOS, foto, pesos } from '../lib/catalogo';
 import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
@@ -37,7 +38,7 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
       <div class="lineas">
         {LINEAS.map((l, i) => (
           <a class="linea" href={`/${l.slug}`}>
-            <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[320, 520]} sizes="(min-width: 960px) 270px, 46vw" alt="" loading={i < 4 ? 'eager' : 'lazy'} />
+            {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[320, 520]} sizes="(min-width: 960px) 270px, 46vw" alt="" loading={i < 4 ? 'eager' : 'lazy'} /> : <SinFoto texto="" />}
             <span>{l.nombre}</span>
           </a>
         ))}
@@ -151,7 +152,7 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
   .linea :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform .4s ease; }
   .linea:hover :global(img) { transform: scale(1.04); }
   .linea span { position: absolute; left: 0; right: 0; bottom: 0; padding: 2.4rem 1rem .9rem; color: #fff; font-family: var(--f-titulo); font-weight: 800; font-size: 1.35rem; background: linear-gradient(transparent, rgba(59, 24, 56, .85)); }
-  @media (min-width: 900px) { .lineas { grid-template-columns: repeat(4, 1fr); } }
+  @media (min-width: 900px) { .lineas { grid-template-columns: repeat(5, 1fr); } }
 
   .destacados { background: #fff; }
   .cabeza-seccion { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 1rem; }

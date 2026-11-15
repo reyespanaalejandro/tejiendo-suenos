@@ -3,7 +3,8 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
 import Sellos from '../components/Sellos.astro';
-import Licencias from '../components/Licencias.astro';
+import SinFoto from '../components/SinFoto.astro';
+import { whatsappUrl } from '../lib/negocio';
 import { LINEAS, productosDe, foto, type Linea } from '../lib/catalogo';
 
 export function getStaticPaths() {
@@ -11,7 +12,7 @@ export function getStaticPaths() {
 }
 const { l } = Astro.props as { l: Linea };
 const productos = productosDe(l.slug);
-const conLicencias = ['pijamas-familiares', 'pijamas-hombre', 'pijamas-ninos', 'pijamas-mujer'].includes(l.slug);
+const esFutbol = l.slug === 'pijamas-futboleras';
 ---
 <Base title={l.seoTitle} description={l.descripcion}>
   <section class="pagina-cabeza">
@@ -22,7 +23,7 @@ const conLicencias = ['pijamas-familiares', 'pijamas-hombre', 'pijamas-ninos', '
         <p>{l.intro}</p>
       </div>
       <div class="cabeza-foto">
-        <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 360px, 90vw" alt="" loading="eager" />
+        {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 360px, 90vw" alt="" loading="eager" /> : <SinFoto texto="Fotos por confirmar" />}
       </div>
     </div>
   </section>
@@ -33,7 +34,12 @@ const conLicencias = ['pijamas-familiares', 'pijamas-hombre', 'pijamas-ninos', '
       <div class="rejilla-productos">
         {productos.map((p, i) => <TarjetaProducto p={p} prioridad={i < 4} />)}
       </div>
-      {conLicencias && <div class="lic"><Licencias /></div>}
+      {esFutbol && (
+        <div class="futbol">
+          <div><h2>¿De qué equipo eres?</h2><p>Escríbenos el nombre de tu equipo y te enviamos las fotos de los diseños disponibles, para dama, caballero y niños.</p></div>
+          <a class="boton boton-wa" href={whatsappUrl('Hola, Tejiendo Sueños. Quiero una pijama futbolera de mi equipo: ')} data-wa="futboleras" target="_blank" rel="noopener">Preguntar por mi equipo</a>
+        </div>
+      )}
       <div class="sellos-wrap"><Sellos /></div>
     </div>
   </section>
@@ -45,6 +51,10 @@ const conLicencias = ['pijamas-familiares', 'pijamas-hombre', 'pijamas-ninos', '
   .cabeza-foto :global(img) { border-radius: 28px 28px 28px 100px; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 25%; }
   @media (min-width: 900px) { .cabeza-grid { grid-template-columns: 1.6fr 1fr; } .cabeza-foto { display: block; } }
   .conteo { color: var(--texto-suave); font-weight: 700; margin-bottom: 1.2rem; }
-  .lic { margin-top: 3rem; }
+  .futbol { margin-top: 2.4rem; display: flex; flex-wrap: wrap; gap: 1.2rem 2rem; align-items: center; justify-content: space-between; padding: 1.6rem 1.8rem; border-radius: var(--radio); background: var(--ciruela); color: #f5ecf4; }
+  .futbol > div { flex: 1 1 380px; min-width: 0; }
+  .futbol h2 { color: #fff; font-size: 1.6rem; }
+  .futbol p { margin: 0; }
+  .cabeza-foto :global(.sin-foto) { border-radius: 28px 28px 28px 100px; aspect-ratio: 4 / 3; }
   .sellos-wrap { margin-top: 2rem; }
 </style>

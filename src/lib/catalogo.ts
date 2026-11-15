@@ -25,7 +25,7 @@ export interface Linea {
   seoTitle: string;
   descripcion: string;
   intro: string;
-  portada: string; // foto
+  portada: string | null; // foto; null = sin foto todavía
 }
 
 export const LINEAS: Linea[] = [
@@ -72,6 +72,20 @@ export const LINEAS: Linea[] = [
     portada: 'infantil-nina-arcoiris',
   },
   {
+    slug: 'pijamas-divertidas', nombre: 'Divertidas', titulo: 'Pijamas divertidas y de superhéroes',
+    seoTitle: 'Pijamas divertidas y de superhéroes | Tejiendo Sueños',
+    descripcion: 'Pijamas divertidas con personajes y pijamas de superhéroes para niños, dama y caballero. Algodón certificado.',
+    intro: 'Personajes que te sacan una sonrisa y superhéroes para toda la familia. Pantalón largo o short.',
+    portada: 'divertida-elmo',
+  },
+  {
+    slug: 'pijamas-futboleras', nombre: 'Futboleras', titulo: 'Pijamas de equipos de fútbol',
+    seoTitle: 'Pijamas de equipos de fútbol | Tejiendo Sueños',
+    descripcion: 'Pijamas futboleras de tu equipo para dama, caballero y niños. Algodón certificado, hechas en Bogotá.',
+    intro: 'Pijamas de tu equipo para dama, caballero y niños. Escríbenos qué equipo buscas y te mostramos los diseños disponibles.',
+    portada: null,
+  },
+  {
     slug: 'batas', nombre: 'Batas', titulo: 'Batas de dormir',
     seoTitle: 'Batas de dormir para mujer | Tejiendo Sueños',
     descripcion: 'Batas de dormir de algodón para mujer: de botones y con diseños tiernos.',
@@ -93,6 +107,8 @@ export interface Producto {
   linea: string; // nombre de la línea en el catálogo de WhatsApp
   precio: number | null; // por persona; null = por confirmar
   tallaje: Tallaje;
+  propia?: boolean; // false = no la fabrica Tejiendo Sueños
+  puntos?: string[]; // características propias (reemplazan las de fábrica)
   lineas: string[]; // slugs de LINEAS donde aparece
   fotos: string[];
   alt: string;
@@ -161,6 +177,40 @@ export const PRODUCTOS: Producto[] = [
   { slug: 'infantil-caballito-de-mar', nombre: 'Infantil Caballito de Mar', linea: 'Línea infantil', precio: null, tallaje: 'ninos', lineas: ['pijamas-ninos'],
     fotos: ['nina-caballito-de-mar'], alt: 'Niña con pijama azul claro estampada con un caballito de mar',
     descripcion: 'Camiseta azul claro con caballito de mar y pantalón estampado.' },
+  { slug: 'divertida-elmo', nombre: 'Divertida Elmo', linea: 'Divertidas pantalón largo', precio: 120000, tallaje: 'adulto-dama', lineas: ['pijamas-divertidas', 'pijamas-mujer'], destacado: false,
+    fotos: ['divertida-elmo'], alt: 'Mujer con pijama de camiseta negra con Elmo y pantalón gris',
+    descripcion: 'Camiseta negra con Elmo y pantalón largo gris con detalle a juego.' },
+  { slug: 'divertida-come-galletas', nombre: 'Divertida Come Galletas', linea: 'Divertidas pantalón largo', precio: 120000, tallaje: 'adulto-dama', lineas: ['pijamas-divertidas', 'pijamas-mujer'],
+    fotos: ['divertida-come-galletas'], alt: 'Mujer con pijama de camiseta azul claro con el Monstruo Come Galletas y pantalón azul',
+    descripcion: 'Camiseta azul claro con el Monstruo Come Galletas y pantalón largo azul.' },
+  { slug: 'divertida-snoopy', nombre: 'Divertida Snoopy', linea: 'Divertidas pantalón largo', precio: 120000, tallaje: 'adulto-dama', lineas: ['pijamas-divertidas', 'pijamas-mujer'],
+    fotos: ['divertida-snoopy'], alt: 'Mujer con pijama de camiseta amarilla con Snoopy y pantalón gris',
+    descripcion: 'Camiseta amarilla con Snoopy y pantalón largo gris.' },
+  { slug: 'divertida-garfield', nombre: 'Divertida Garfield', linea: 'Divertidas pantalón largo', precio: 120000, tallaje: 'adulto-dama', lineas: ['pijamas-divertidas', 'pijamas-mujer'],
+    fotos: ['divertida-garfield'], alt: 'Mujer con pijama de camiseta negra con Garfield y pantalón gris',
+    descripcion: 'Camiseta negra con Garfield y pantalón largo gris.' },
+  { slug: 'divertida-short-gatitos', nombre: 'Divertida Short Gatitos', linea: 'Divertidas short', precio: 110000, tallaje: 'adulto-dama', lineas: ['pijamas-divertidas', 'pijamas-mujer'],
+    fotos: ['divertida-short-gatitos'], alt: 'Mujer con pijama de camiseta rosada con gatitos y short gris',
+    descripcion: 'Camiseta rosada con gatitos y short gris. Fresca para clima cálido.' },
+  { slug: 'superheroes-spiderman', nombre: 'Familiar Spider-Man', linea: 'Pijamas superhéroes', precio: 120000, tallaje: 'familia', lineas: ['pijamas-divertidas', 'pijamas-familiares', 'pijamas-ninos'], destacado: true,
+    fotos: ['superheroes-familia-spiderman'], alt: 'Familia con pijamas azul oscuro de Spider-Man',
+    descripcion: 'Pijama azul oscuro con Spider-Man, para niños y adultos.' },
+  { slug: 'superheroes-superman', nombre: 'Familiar Superman', linea: 'Pijamas superhéroes', precio: 120000, tallaje: 'familia', lineas: ['pijamas-divertidas', 'pijamas-familiares', 'pijamas-ninos'],
+    fotos: ['superheroes-familia-superman'], alt: 'Familia con pijamas azul oscuro con el escudo de Superman',
+    descripcion: 'Pijama azul oscuro con el escudo de Superman, para niños y adultos.' },
+  { slug: 'superheroes-mix', nombre: 'Superhéroes para todos', linea: 'Pijamas superhéroes', precio: 120000, tallaje: 'familia', lineas: ['pijamas-divertidas', 'pijamas-ninos'],
+    fotos: ['superheroes-familia-mix'], alt: 'Familia con pijamas de distintos superhéroes: Batman, Capitán América, Deadpool e Iron Man',
+    descripcion: 'Cada uno escoge su superhéroe: Batman, Capitán América, Iron Man, Deadpool y más.' },
+  { slug: 'superheroes-batman', nombre: 'Batman Caballero', linea: 'Pijamas superhéroes', precio: 120000, tallaje: 'adulto-caballero', lineas: ['pijamas-divertidas', 'pijamas-hombre'],
+    fotos: ['superheroes-batman-caballero'], alt: 'Hombre con pijama de camiseta gris con el logo de Batman y pantalón negro',
+    descripcion: 'Camiseta gris con el logo de Batman y pantalón largo negro.' },
+  { slug: 'futboleras', nombre: 'Futboleras', linea: 'Futboleras', precio: 125000, tallaje: 'familia', lineas: ['pijamas-futboleras', 'pijamas-hombre'], destacado: false,
+    fotos: [], alt: '',
+    descripcion: 'Pijama de tu equipo de fútbol, para dama, caballero y niños. Cuéntanos tu equipo y te mostramos los diseños disponibles.' },
+  { slug: 'seda-pantalon-largo', nombre: 'Seda Pantalón Largo', linea: 'Seda pantalón largo', precio: 150000, tallaje: 'adulto-dama', lineas: ['pijamas-mujer'], propia: false,
+    puntos: ['Tela satinada, suave y fresca', 'Cómoda y ligera', 'Colores: rosado, lila, verde menta y azul oscuro'],
+    fotos: ['seda-colores'], alt: 'Pijama de seda de manga corta y pantalón largo en rosado, lila, verde menta y azul oscuro',
+    descripcion: 'Pijama satinada de camisa con botones y pantalón largo. Disponible en varios colores.' },
   { slug: 'bata-botones', nombre: 'Bata de Botones', linea: 'Bata botones', precio: 95000, tallaje: 'adulto-dama', lineas: ['batas', 'pijamas-mujer'],
     fotos: ['dama-camisero-azul'], alt: 'Mujer con bata de botones azul oscuro con puntos',
     descripcion: 'Bata camisera de botones con bolsillo, cómoda para dormir y estar en casa.' },
@@ -178,11 +228,6 @@ export const PRODUCTOS: Producto[] = [
     descripcion: 'Pantuflas peluditas de gatito.' },
 ];
 
-// Líneas con diseños de licencia: se ofrecen sin fotos, por WhatsApp.
-export const LICENCIAS = [
-  { nombre: 'Superhéroes', precio: 120000, texto: 'Diseños de superhéroes para niños y adultos.' },
-  { nombre: 'Futboleras', precio: 125000, texto: 'Pijamas de los equipos de fútbol, para dama y caballero.' },
-];
 
 export const pesos = (n: number) => '$' + n.toLocaleString('es-CO');
 export const productosDe = (linea: string) => PRODUCTOS.filter((p) => p.lineas.includes(linea));
