@@ -3,11 +3,13 @@
 Sitio de Tejiendo Sueños, fábrica de pijamas en Bogotá. Hecho con [Astro](https://astro.build): genera páginas estáticas (HTML) rápidas y fáciles de alojar.
 
 ## Páginas
-- `/pijamas-al-por-mayor` — página de ventas al por mayor (lista).
-- `/` — por ahora redirige a la de por mayor. Aquí irá la tienda al detal.
+- **Detal:** `/` (inicio), `/tienda`, una página por línea (`/pijamas-familiares`, `/pijamas-navidenas`, `/pijamas-de-pareja`, `/pijamas-mujer`, `/pijamas-hombre`, `/pijamas-ninos`, `/batas`, `/pantuflas`), una ficha por producto (`/producto/...`), `/pijamas-personalizadas` y `/guia-de-tallas`.
+- **Por mayor:** `/pijamas-al-por-mayor`.
+- **Compartidas:** `/nosotros`, `/contacto`, `/envios-cambios-y-garantia`, `/preguntas-frecuentes`.
 
 ## Dónde está cada cosa
-- `src/lib/negocio.ts`: datos del negocio (WhatsApp, dirección, horario). **Única fuente**: si algo cambia, se cambia aquí.
+- `src/lib/negocio.ts`: datos del negocio (WhatsApp, dirección, horario, envíos). **Única fuente**: si algo cambia, se cambia aquí. `BORRADOR = true` muestra la franja de borrador.
+- `src/lib/catalogo.ts`: productos, precios por persona, líneas y tallas. Para agregar un producto, se agrega aquí con su foto en `src/assets/fotos/`.
 - `src/pages/pijamas-al-por-mayor.astro`: textos y estructura de la página de por mayor.
 - `src/assets/fotos/`: fotos (Astro las convierte a AVIF/WebP en varios tamaños al compilar).
 - `src/components/Logo.astro` y `src/assets/logo-tejiendo-suenos.png`: logo oficial.

@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { ENVIOS } from '../lib/negocio';
+---
+<Base title="Envíos, cambios y garantía | Tejiendo Sueños" description="Envíos a toda Colombia con pago contraentrega, cambios de talla y garantía de por vida en costuras.">
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Envíos, cambios y garantía</nav>
+      <h1>Envíos, cambios y garantía</h1>
+      <p>Queremos que compres con tranquilidad, antes y después de recibir tu pedido.</p>
+    </div>
+  </section>
+  <section class="seccion">
+    <div class="contenedor prosa">
+      <h2>Envíos</h2>
+      <ul>
+        <li>{ENVIOS.nacional}</li>
+        <li>{ENVIOS.bogota} <span class="pendiente">Costo del domicilio en Bogotá por confirmar</span></li>
+        <li>Las pijamas personalizadas tienen su propio tiempo de entrega, que te confirmamos al hacer el pedido.</li>
+      </ul>
+
+      <h2>Formas de pago</h2>
+      <ul>
+        <li>Transferencia, Bre-B, Nequi o Daviplata.</li>
+        <li>Tarjeta, con link de pago.</li>
+        <li>Contraentrega con Interrapidísimo: pagas en efectivo o con datáfono cuando recibes.</li>
+      </ul>
+
+      <h2>Cambios</h2>
+      <ul>
+        <li>Puedes cambiar tu pijama por otra talla.</li>
+        <li>Si la prenda llega con un defecto, te la cambiamos.</li>
+        <li>No hacemos devolución de dinero.</li>
+        <li>No recibimos cambios de prendas que se vean o huelan usadas.</li>
+        <li><span class="pendiente">Plazo para hacer el cambio por confirmar</span></li>
+      </ul>
+
+      <h2>Garantía</h2>
+      <ul>
+        <li><strong>Costuras: garantía de por vida.</strong> Si una costura se descose, así haya pasado tiempo, te la arreglamos o te la cambiamos.</li>
+        <li><strong>Estampado: garantía de dos años.</strong></li>
+        <li>La garantía no cubre daños por mal lavado.</li>
+      </ul>
+
+      <h2>Cuidado de tu pijama</h2>
+      <ul>
+        <li>Lávala aparte de las toallas para que no le salgan motas.</li>
+        <li><span class="pendiente">Instrucciones completas de lavado por confirmar</span></li>
+      </ul>
+    </div>
+  </section>
+</Base>

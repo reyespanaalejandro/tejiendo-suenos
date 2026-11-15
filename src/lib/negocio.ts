@@ -28,3 +28,13 @@ export function whatsappUrl(mensaje: string) {
 
 export const MENSAJE_MAYOR =
   'Hola, Tejiendo Sueños. Tengo un negocio y me interesa comprar pijamas al por mayor. ¿Me envían el catálogo y los precios mayoristas?';
+
+// Muestra la franja "Borrador" arriba del sitio. Poner en false al lanzar.
+export const BORRADOR = true;
+
+export const MENSAJE_GENERAL = 'Hola, Tejiendo Sueños. Quiero información sobre sus pijamas.';
+
+export const ENVIOS = {
+  nacional: 'Enviamos a toda Colombia con Interrapidísimo. El envío cuesta entre $15.000 y $20.000 según la ciudad, y puedes pagar contraentrega.',
+  bogota: 'En Bogotá, si la pijama está en tienda, te la llevamos máximo al día siguiente con domiciliario.',
+};

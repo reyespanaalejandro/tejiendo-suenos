@@ -1,0 +1,26 @@
+---
+import { LICENCIAS, pesos } from '../lib/catalogo';
+import { whatsappUrl } from '../lib/negocio';
+const msg = 'Hola, Tejiendo Sueños. Me interesan las pijamas de superhéroes o de equipos de fútbol. ¿Qué diseños tienen disponibles?';
+---
+<div class="licencias">
+  <div class="licencias-texto">
+    <h3>¿Buscas superhéroes o tu equipo de fútbol?</h3>
+    <p>También tenemos pijamas de superhéroes y de los equipos de fútbol. Escríbenos y te mostramos los diseños disponibles.</p>
+  </div>
+  <ul class="licencias-precios">
+    {LICENCIAS.map((l) => <li><strong>{l.nombre}</strong><span>{pesos(l.precio)} por persona</span></li>)}
+  </ul>
+  <a class="boton boton-wa" href={whatsappUrl(msg)} data-wa="licencias" target="_blank" rel="noopener">Ver diseños por WhatsApp</a>
+</div>
+
+<style>
+  .licencias { display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2rem; padding: 1.6rem 1.8rem; border-radius: var(--radio); background: var(--ciruela); color: #f5ecf4; }
+  .licencias-texto { flex: 1 1 340px; min-width: 0; }
+  .licencias h3 { color: #fff; margin-bottom: .35rem; }
+  .licencias p { margin: 0; }
+  .licencias-precios { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.4rem; flex-wrap: wrap; }
+  .licencias-precios li { display: grid; }
+  .licencias-precios strong { font-family: var(--f-titulo); color: #fff; font-size: 1.15rem; }
+  .licencias-precios span { font-size: .9rem; color: #f1a7d9; }
+</style>

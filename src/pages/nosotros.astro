@@ -1,0 +1,75 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Sellos from '../components/Sellos.astro';
+import { foto } from '../lib/catalogo';
+import { NEGOCIO } from '../lib/negocio';
+
+const equipo = [
+  { rol: 'Rocío, fundadora', d: 'Geóloga de profesión. En 2018 empezó a hacer pijamas para salir adelante con su familia, y hoy dirige la fábrica y atiende a sus clientes en persona.' },
+  { rol: 'Su esposo', d: 'El apoyo incondicional desde el primer día.' },
+  { rol: 'El cortador', d: 'Sabe coser, maneja todas las máquinas y hace el control de calidad de cada lote. Es quien resuelve cualquier problema.' },
+  { rol: 'Las costureras', d: 'Madres cabeza de familia, muy trabajadoras, que cosen cada pijama con cuidado.' },
+  { rol: 'El diseñador', d: 'Crea los diseños tiernos de cada colección, una nueva cada tres meses.' },
+  { rol: 'El estampador', d: 'Trabaja con tintas certificadas, sin plomo y amigables con el medio ambiente.' },
+  { rol: 'Las asesoras de la tienda', d: 'Te atienden en Bulevar Niza y por WhatsApp, antes y después de tu compra.' },
+];
+---
+<Base title="Nosotros: una fábrica familiar de pijamas en Bogotá | Tejiendo Sueños" description="Tejiendo Sueños es una fábrica familiar de pijamas en Bogotá desde 2018. Conoce nuestra historia y a las personas detrás de cada pijama.">
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Nosotros</nav>
+      <h1>Una fábrica familiar que teje sueños desde {NEGOCIO.fabricaDesde}</h1>
+      <p>Somos una fábrica colombiana. Trabajamos con amor y con un propósito: hacer país, generar empleo y regalar un momento lindo a quien se pone una de nuestras pijamas.</p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor historia">
+      <div class="prosa">
+        <h2>Cómo empezó todo</h2>
+        <p>Rocío es geóloga y trabajó en exploración de petróleo. Cuando se quedó sin trabajo, con un hijo de un año, una persona le propuso hacer pijamas y le enseñó la cadena de producción. Hicieron las primeras pijamas, salieron bien, y con la liquidación de su trabajo Rocío invirtió todo en su propia marca.</p>
+        <p>El nombre nació en ese momento: <strong>Tejiendo Sueños</strong> era la ilusión de salir adelante y sacar adelante a su hijo.</p>
+        <p>Al principio vendía tienda por tienda. La casa se llenó de pijamas, la fábrica pasó al apartamento de al lado y en diciembre de 2021 descubrió que una tienda tenía todo el local lleno de sus pijamas. Ahí entendió que tocaba abrir su propio punto: el 6 de abril de {NEGOCIO.tiendaDesde} abrió la tienda en Bulevar Niza.</p>
+        <h2>Cómo hacemos cada pijama</h2>
+        <ul>
+          <li>Usamos solo tela de algodón colombiana con sello <strong>TEKS</strong>, hipoalergénica.</li>
+          <li>Los diseños se estampan en serigrafía con <strong>tintas certificadas sin plomo</strong>.</li>
+          <li>Cosemos con hilo nuevo, agujas para algodón doble punto y puntada de seguridad, siguiendo una ficha técnica de calidad.</li>
+          <li>Cada prenda se revisa a mano y los hilos sueltos se cortan uno por uno.</li>
+          <li>Si una prenda sale con un defecto, no la vendemos más barata: la donamos.</li>
+        </ul>
+      </div>
+      <aside class="hist-foto">
+        <Picture src={foto('familia-nubes-petroleo')} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 960px) 380px, 90vw" alt="Familia con pijamas iguales azul petróleo con nubes" />
+        <p class="foto-nota"><span class="pendiente">Aquí irán fotos de Rocío y de la fábrica</span></p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="seccion equipo-sec">
+    <div class="contenedor">
+      <h2>Las personas detrás de tu pijama</h2>
+      <div class="equipo">
+        {equipo.map((e) => <article><h3>{e.rol}</h3><p>{e.d}</p></article>)}
+      </div>
+      <div class="sellos-wrap"><Sellos /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .historia { display: grid; gap: 2.4rem; }
+  .historia .prosa h2:first-child { margin-top: 0; }
+  .hist-foto :global(img) { border-radius: 28px 100px 28px 28px; width: 100%; }
+  .foto-nota { margin-top: .8rem; font-size: .9rem; }
+  @media (min-width: 960px) { .historia { grid-template-columns: 1.4fr 1fr; gap: 4rem; } .hist-foto { position: sticky; top: 96px; align-self: start; } }
+  .equipo-sec { background: #fff; }
+  .equipo { display: grid; gap: 1rem; margin-top: 1.4rem; }
+  .equipo article { border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.3rem 1.4rem; background: var(--crema); }
+  .equipo h3 { color: var(--magenta); font-size: 1.2rem; margin-bottom: .3rem; }
+  .equipo p { margin: 0; color: var(--texto-suave); }
+  @media (min-width: 720px) { .equipo { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .equipo { grid-template-columns: repeat(3, 1fr); } }
+  .sellos-wrap { margin-top: 2.4rem; }
+</style>

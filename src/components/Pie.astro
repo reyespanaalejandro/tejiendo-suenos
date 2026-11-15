@@ -1,0 +1,58 @@
+---
+import Logo from './Logo.astro';
+import { NEGOCIO } from '../lib/negocio';
+import { LINEAS } from '../lib/catalogo';
+---
+<footer class="pie">
+  <div class="contenedor pie-grid">
+    <div class="pie-marca">
+      <Logo alto={64} />
+      <p>Fábrica colombiana de pijamas desde {NEGOCIO.fabricaDesde}. Algodón certificado TEKS, diseños propios y tintas sin plomo.</p>
+    </div>
+    <div>
+      <h2>Tienda</h2>
+      <ul>
+        <li><a href="/tienda">Todas las pijamas</a></li>
+        {LINEAS.map((l) => <li><a href={`/${l.slug}`}>{l.nombre}</a></li>)}
+        <li><a href="/pijamas-personalizadas">Personalizadas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Tejiendo Sueños</h2>
+      <ul>
+        <li><a href="/nosotros">Nosotros</a></li>
+        <li><a href="/pijamas-al-por-mayor">Ventas al por mayor</a></li>
+        <li><a href="/guia-de-tallas">Guía de tallas</a></li>
+        <li><a href="/envios-cambios-y-garantia">Envíos, cambios y garantía</a></li>
+        <li><a href="/preguntas-frecuentes">Preguntas frecuentes</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Visítanos</h2>
+      <p>{NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}<br />{NEGOCIO.tienda.zona}</p>
+      <ul class="pie-horario">
+        {NEGOCIO.horario.map((h) => <li><span>{h.dias}</span> {h.horas}</li>)}
+      </ul>
+      <p>WhatsApp: <strong>{NEGOCIO.whatsappVisible}</strong></p>
+      <p><a href={NEGOCIO.instagram} target="_blank" rel="noopener">Instagram</a></p>
+    </div>
+  </div>
+  <div class="contenedor pie-legal">© {new Date().getFullYear()} Tejiendo Sueños · Hecho en Bogotá, Colombia</div>
+</footer>
+
+<style>
+  .pie { background: #fff; border-top: 1px solid var(--borde); padding: 3.2rem 0 6rem; font-size: .95rem; color: var(--texto-suave); }
+  .pie-grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+  .pie h2 { font-size: 1.05rem; margin-bottom: .7rem; }
+  .pie ul { list-style: none; padding: 0; margin: 0; display: grid; gap: .45rem; }
+  .pie a { color: var(--texto); text-decoration: none; }
+  .pie a:hover { color: var(--magenta); text-decoration: underline; }
+  .pie-marca p { margin-top: 1rem; max-width: 320px; }
+  .pie-horario span { font-weight: 700; color: var(--texto); }
+  .pie-horario { margin-bottom: .8rem !important; }
+  .pie p { margin: 0 0 .6rem; }
+  .pie-legal { margin-top: 2.4rem; padding-top: 1.2rem; border-top: 1px solid var(--borde); font-size: .85rem; }
+  @media (min-width: 720px) { .pie-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .pie-grid { grid-template-columns: 1.3fr 1fr 1fr 1.2fr; } }
+</style>

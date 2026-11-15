@@ -1,0 +1,32 @@
+---
+import { Picture } from 'astro:assets';
+import { foto, pesos, type Producto } from '../lib/catalogo';
+
+interface Props { p: Producto; prioridad?: boolean }
+const { p, prioridad = false } = Astro.props;
+const etiqueta = p.tallaje === 'familia' ? 'Para toda la familia' : p.tallaje === 'ninos' ? 'Tallas 2 a 16' : p.tallaje === 'calzado' ? 'Tallas 35 a 45' : 'Tallas S a XL';
+---
+<a class="tarjeta" href={`/producto/${p.slug}`}>
+  <div class="tarjeta-foto">
+    <Picture src={foto(p.fotos[0])} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 640]} sizes="(min-width: 1060px) 260px, (min-width: 640px) 30vw, 46vw" alt={p.alt} loading={prioridad ? 'eager' : 'lazy'} />
+    <span class="tarjeta-etiqueta">{etiqueta}</span>
+  </div>
+  <h3>{p.nombre}</h3>
+  <p class="tarjeta-precio">
+    {p.precio ? <><strong>{pesos(p.precio)}</strong> {p.tallaje === 'calzado' ? 'el par' : 'por persona'}</> : <span class="consultar">Precio por confirmar</span>}
+  </p>
+</a>
+
+<style>
+  .tarjeta { display: block; text-decoration: none; color: inherit; min-width: 0; }
+  .tarjeta-foto { position: relative; border-radius: 20px; overflow: hidden; background: var(--lila); aspect-ratio: 4 / 5; }
+  .tarjeta-foto :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform .4s ease; }
+  .tarjeta:hover .tarjeta-foto :global(img) { transform: scale(1.03); }
+  .tarjeta-etiqueta { position: absolute; left: 10px; bottom: 10px; background: rgba(255, 255, 255, .92); color: var(--ciruela); font-size: .78rem; font-weight: 700; padding: .25rem .6rem; border-radius: 999px; }
+  .tarjeta h3 { margin: .75rem 0 .15rem; font-size: 1.15rem; }
+  .tarjeta:hover h3 { color: var(--magenta); }
+  .tarjeta-precio { margin: 0; color: var(--texto-suave); font-size: .95rem; }
+  .tarjeta-precio strong { color: var(--ciruela); font-size: 1.05rem; }
+  .consultar { font-style: italic; }
+  @media (prefers-reduced-motion: reduce) { .tarjeta-foto :global(img) { transition: none; } }
+</style>

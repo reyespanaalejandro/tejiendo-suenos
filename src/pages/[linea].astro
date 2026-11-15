@@ -1,0 +1,50 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import Sellos from '../components/Sellos.astro';
+import Licencias from '../components/Licencias.astro';
+import { LINEAS, productosDe, foto, type Linea } from '../lib/catalogo';
+
+export function getStaticPaths() {
+  return LINEAS.map((l) => ({ params: { linea: l.slug }, props: { l } }));
+}
+const { l } = Astro.props as { l: Linea };
+const productos = productosDe(l.slug);
+const conLicencias = ['pijamas-familiares', 'pijamas-hombre', 'pijamas-ninos', 'pijamas-mujer'].includes(l.slug);
+---
+<Base title={l.seoTitle} description={l.descripcion}>
+  <section class="pagina-cabeza">
+    <div class="contenedor cabeza-grid">
+      <div>
+        <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / <a href="/tienda">Tienda</a> / {l.nombre}</nav>
+        <h1>{l.titulo}</h1>
+        <p>{l.intro}</p>
+      </div>
+      <div class="cabeza-foto">
+        <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 360px, 90vw" alt="" loading="eager" />
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <p class="conteo">{productos.length} {productos.length === 1 ? 'diseño' : 'diseños'}</p>
+      <div class="rejilla-productos">
+        {productos.map((p, i) => <TarjetaProducto p={p} prioridad={i < 4} />)}
+      </div>
+      {conLicencias && <div class="lic"><Licencias /></div>}
+      <div class="sellos-wrap"><Sellos /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cabeza-grid { display: grid; gap: 1.6rem; align-items: center; }
+  .cabeza-foto { display: none; }
+  .cabeza-foto :global(img) { border-radius: 28px 28px 28px 100px; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 25%; }
+  @media (min-width: 900px) { .cabeza-grid { grid-template-columns: 1.6fr 1fr; } .cabeza-foto { display: block; } }
+  .conteo { color: var(--texto-suave); font-weight: 700; margin-bottom: 1.2rem; }
+  .lic { margin-top: 3rem; }
+  .sellos-wrap { margin-top: 2rem; }
+</style>

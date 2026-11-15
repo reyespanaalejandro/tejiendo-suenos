@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/negocio';
+---
+<Base title="Contacto y tienda en Bulevar Niza | Tejiendo Sueños" description="Escríbenos por WhatsApp o visítanos en el Centro Comercial Bulevar Niza, local 163, Bogotá. Horarios y cómo llegar.">
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Contacto</nav>
+      <h1>Escríbenos o ven a la tienda</h1>
+      <p>Te responde una persona del equipo, en el horario de la tienda.</p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor tarjetas">
+      <article>
+        <h2>WhatsApp</h2>
+        <p class="dato">{NEGOCIO.whatsappVisible}</p>
+        <p>Para pedidos, tallas, envíos, cambios y personalizados.</p>
+        <a class="boton boton-wa" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="contacto" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      </article>
+      <article>
+        <h2>Tienda</h2>
+        <p class="dato">{NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}</p>
+        <p>{NEGOCIO.tienda.direccion}, {NEGOCIO.tienda.zona}</p>
+        <ul class="horario">{NEGOCIO.horario.map((h) => <li><span>{h.dias}</span><span>{h.horas}</span></li>)}</ul>
+        <p class="nota">En temporada alta ampliamos el horario.</p>
+        <a class="boton boton-primario" href={NEGOCIO.tienda.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a>
+      </article>
+      <article>
+        <h2>Ventas al por mayor</h2>
+        <p>¿Tienes una tienda o un negocio? Te surtimos directo de la fábrica.</p>
+        <a class="boton boton-borde" href="/pijamas-al-por-mayor">Ver ventas al por mayor</a>
+        <a class="enlace-wa" href={whatsappUrl(MENSAJE_MAYOR)} data-wa="contacto-mayor" target="_blank" rel="noopener">O escríbenos directamente</a>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tarjetas { display: grid; gap: 1.2rem; }
+  .tarjetas article { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.6rem; display: flex; flex-direction: column; gap: .6rem; align-items: flex-start; }
+  .tarjetas p { margin: 0; color: var(--texto-suave); }
+  .tarjetas .dato { font-family: var(--f-titulo); font-size: 1.35rem; color: var(--ciruela); }
+  .tarjetas .boton { margin-top: auto; }
+  .horario { list-style: none; padding: 0; margin: .3rem 0; width: 100%; font-variant-numeric: tabular-nums; }
+  .horario li { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem 0; border-bottom: 1px dashed var(--borde); }
+  .horario li span:first-child { font-weight: 700; }
+  .nota { font-size: .9rem; }
+  .enlace-wa { font-weight: 700; font-size: .95rem; }
+  @media (min-width: 960px) { .tarjetas { grid-template-columns: repeat(3, 1fr); } }
+</style>

@@ -1,0 +1,202 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import TarjetaProducto from '../../components/TarjetaProducto.astro';
+import { PRODUCTOS, TALLAS, LINEAS, foto, pesos, type Producto } from '../../lib/catalogo';
+import { NEGOCIO, ENVIOS } from '../../lib/negocio';
+
+export function getStaticPaths() {
+  return PRODUCTOS.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props as { p: Producto };
+const linea = LINEAS.find((l) => l.slug === p.lineas[0])!;
+
+const grupos: { nombre: string; tallas: string[] }[] =
+  p.tallaje === 'familia' ? [
+    { nombre: 'Dama', tallas: TALLAS.adulto },
+    { nombre: 'Caballero', tallas: TALLAS.adulto },
+    { nombre: 'Niño o niña', tallas: TALLAS.ninos },
+  ]
+  : p.tallaje === 'adulto-dama' ? [{ nombre: 'Dama', tallas: TALLAS.adulto }]
+  : p.tallaje === 'adulto-caballero' ? [{ nombre: 'Caballero', tallas: TALLAS.adulto }]
+  : p.tallaje === 'ninos' ? [{ nombre: 'Niño o niña', tallas: TALLAS.ninos }]
+  : p.tallaje === 'calzado' ? [{ nombre: 'Talla', tallas: TALLAS.calzado }]
+  : [{ nombre: 'Adulto', tallas: TALLAS.adulto }];
+
+const relacionados = PRODUCTOS.filter((x) => x.slug !== p.slug && x.lineas.some((l) => p.lineas.includes(l))).slice(0, 4);
+const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
+---
+<Base title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + unidad + '.' : ''} Algodón certificado TEKS, hecho en Bogotá.`}>
+  <section class="seccion ficha">
+    <div class="contenedor ficha-grid">
+      <div class="galeria">
+        {p.fotos.map((f, i) => (
+          <Picture src={foto(f)} formats={['avif']} fallbackFormat="webp" widths={[480, 720, 1000]} sizes="(min-width: 960px) 560px, 100vw" alt={i === 0 ? p.alt : `${p.nombre}, otra foto`} loading={i === 0 ? 'eager' : 'lazy'} />
+        ))}
+      </div>
+
+      <div class="info">
+        <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / <a href={`/${linea.slug}`}>{linea.nombre}</a> / {p.nombre}</nav>
+        <h1>{p.nombre}</h1>
+        <p class="precio">{p.precio ? <><strong>{pesos(p.precio)}</strong> {unidad}</> : <span class="pendiente">Precio por confirmar</span>}</p>
+        <p class="desc">{p.descripcion}</p>
+        <ul class="puntos">
+          {p.tallaje !== 'calzado' && <li>Algodón colombiano certificado TEKS, hipoalergénico</li>}
+          {p.tallaje !== 'calzado' && <li>Estampado en serigrafía con tintas sin plomo</li>}
+          {p.tallaje !== 'calzado' && <li>Con bolsillos</li>}
+          <li>Hecho en Bogotá por Tejiendo Sueños</li>
+        </ul>
+
+        <form class="pedido" id="pedido" data-producto={p.nombre} data-precio={p.precio ?? ''} data-unidad={unidad} data-wa={NEGOCIO.whatsapp}>
+          <h2>{p.tallaje === 'familia' ? 'Arma el pedido de tu familia' : 'Escoge la talla'}</h2>
+          {p.tallaje === 'familia' && <p class="ayuda">Toca la talla de cada persona. Puedes agregar varias del mismo grupo.</p>}
+          {grupos.map((g) => (
+            <fieldset>
+              <legend>{g.nombre}</legend>
+              <div class="tallas">
+                {g.tallas.map((t) => <button type="button" class="talla" data-grupo={g.nombre} data-talla={t}>{t}</button>)}
+              </div>
+            </fieldset>
+          ))}
+          <a class="guia" href="/guia-de-tallas">¿Cuál es mi talla?</a>
+
+          <div class="resumen" aria-live="polite">
+            <ul class="items" id="items"></ul>
+            <p class="vacio" id="vacio">Aún no has escogido tallas.</p>
+            <div class="total" id="total-wrap" hidden><span id="cuenta"></span><strong id="total"></strong></div>
+          </div>
+          <a class="boton boton-wa enviar" id="enviar" aria-disabled="true" data-wa="producto" target="_blank" rel="noopener" href={`https://wa.me/${NEGOCIO.whatsapp}`}>Pedir por WhatsApp</a>
+          <p class="nota">Te confirmamos disponibilidad y envío por WhatsApp. Puedes pagar por transferencia, Nequi, Daviplata, link de pago o contraentrega.</p>
+        </form>
+
+        <div class="detalles">
+          <details open>
+            <summary>Envíos</summary>
+            <p>{ENVIOS.nacional}</p>
+            <p>{ENVIOS.bogota}</p>
+          </details>
+          <details>
+            <summary>Cambios y garantía</summary>
+            <p>Puedes cambiar la talla o, si la prenda tiene un defecto, te la cambiamos. No hacemos devolución de dinero. Las costuras tienen garantía de por vida y el estampado, de dos años, siempre que la prenda se haya lavado bien.</p>
+            <p><a href="/envios-cambios-y-garantia">Ver la política completa</a></p>
+          </details>
+          <details>
+            <summary>Cuidado</summary>
+            <p>Lávala aparte de las toallas para que no le salgan motas. <span class="pendiente">Instrucciones completas de lavado por confirmar</span></p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {relacionados.length > 0 && (
+    <section class="seccion relacionados">
+      <div class="contenedor">
+        <h2>También te pueden gustar</h2>
+        <div class="rejilla-productos">{relacionados.map((r) => <TarjetaProducto p={r} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <script>
+    const form = document.getElementById('pedido') as HTMLFormElement;
+    const itemsEl = document.getElementById('items')!;
+    const vacio = document.getElementById('vacio')!;
+    const totalWrap = document.getElementById('total-wrap')!;
+    const totalEl = document.getElementById('total')!;
+    const cuentaEl = document.getElementById('cuenta')!;
+    const enviar = document.getElementById('enviar') as HTMLAnchorElement;
+    const precio = Number(form.dataset.precio) || 0;
+    const fmt = (n: number) => '$' + n.toLocaleString('es-CO');
+    const pedido = new Map<string, { grupo: string; talla: string; n: number }>();
+
+    const pintar = () => {
+      itemsEl.innerHTML = '';
+      let total = 0;
+      pedido.forEach((it, k) => {
+        total += it.n;
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${it.grupo} · talla <b>${it.talla}</b></span>
+          <span class="cant"><button type="button" aria-label="Quitar una" data-k="${k}" data-d="-1">−</button><output>${it.n}</output><button type="button" aria-label="Agregar una" data-k="${k}" data-d="1">+</button></span>`;
+        itemsEl.appendChild(li);
+      });
+      vacio.hidden = total > 0;
+      totalWrap.hidden = total === 0;
+      cuentaEl.textContent = `${total} ${total === 1 ? 'prenda' : 'prendas'}`;
+      totalEl.textContent = precio ? fmt(total * precio) : 'Precio por confirmar';
+      enviar.setAttribute('aria-disabled', String(total === 0));
+      const lineas = [`Hola, Tejiendo Sueños. Quiero pedir la pijama *${form.dataset.producto}*:`];
+      pedido.forEach((it) => lineas.push(`• ${it.n} × ${it.grupo}, talla ${it.talla}`));
+      if (precio) lineas.push(`Total: ${fmt(total * precio)} (${fmt(precio)} ${form.dataset.unidad})`);
+      lineas.push('¿Me confirman disponibilidad y el envío?');
+      enviar.href = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(lineas.join('\n'))}`;
+    };
+
+    form.querySelectorAll<HTMLButtonElement>('.talla').forEach((b) => b.addEventListener('click', () => {
+      const k = `${b.dataset.grupo}|${b.dataset.talla}`;
+      const it = pedido.get(k) ?? { grupo: b.dataset.grupo!, talla: b.dataset.talla!, n: 0 };
+      it.n += 1; pedido.set(k, it); pintar();
+    }));
+    itemsEl.addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-k]');
+      if (!b) return;
+      const it = pedido.get(b.dataset.k!)!;
+      it.n += Number(b.dataset.d);
+      if (it.n <= 0) pedido.delete(b.dataset.k!);
+      pintar();
+    });
+    enviar.addEventListener('click', (e) => { if (pedido.size === 0) e.preventDefault(); });
+    pintar();
+  </script>
+</Base>
+
+<style>
+  .ficha { padding-top: clamp(24px, 4vw, 48px); }
+  .ficha-grid { display: grid; gap: 2rem; align-items: start; }
+  .galeria { display: grid; gap: .8rem; }
+  .galeria :global(img) { width: 100%; border-radius: 24px; background: var(--lila); }
+  .info { min-width: 0; }
+  .info h1 { font-size: clamp(2rem, 4vw, 2.8rem); margin-bottom: .3rem; }
+  .precio { font-size: 1.1rem; color: var(--texto-suave); margin-bottom: 1rem; }
+  .precio strong { font-family: var(--f-titulo); font-size: 2rem; color: var(--magenta); margin-right: .2rem; }
+  .desc { font-size: 1.08rem; }
+  .puntos { padding-left: 1.1rem; color: var(--texto-suave); margin: 0 0 1.6rem; }
+  .puntos li { margin-bottom: .3rem; }
+
+  .pedido { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.4rem; box-shadow: var(--sombra); display: grid; gap: 1rem; }
+  .pedido h2 { font-size: 1.35rem; margin: 0; }
+  .ayuda { margin: -.4rem 0 0; font-size: .92rem; color: var(--texto-suave); }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { font-weight: 700; font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--texto-suave); margin-bottom: .45rem; }
+  .tallas { display: flex; flex-wrap: wrap; gap: .45rem; }
+  .talla { min-width: 48px; height: 46px; padding: 0 .7rem; border-radius: 12px; border: 1.5px solid var(--borde); background: var(--crema); font: inherit; font-weight: 700; color: var(--ciruela); cursor: pointer; }
+  .talla:hover { border-color: var(--magenta); color: var(--magenta); }
+  .talla:active { transform: scale(.96); }
+  .talla:focus-visible, .resumen :global(button):focus-visible { outline: 3px solid var(--azul-nube); outline-offset: 2px; }
+  .guia { font-size: .92rem; font-weight: 700; justify-self: start; }
+
+  .resumen { background: var(--lila); border-radius: 16px; padding: .9rem 1rem; }
+  .items { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+  .items :global(li) { display: flex; justify-content: space-between; align-items: center; gap: .6rem; }
+  .items :global(.cant) { display: inline-flex; align-items: center; gap: .3rem; }
+  .items :global(.cant button) { width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--magenta); background: #fff; color: var(--magenta); font-weight: 800; font-size: 1.1rem; cursor: pointer; }
+  .items :global(output) { min-width: 1.6rem; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .vacio { margin: 0; color: var(--texto-suave); font-size: .95rem; }
+  .total[hidden] { display: none; }
+  .total { display: flex; justify-content: space-between; align-items: baseline; border-top: 1px dashed var(--lila-2); margin-top: .7rem; padding-top: .7rem; font-variant-numeric: tabular-nums; }
+  .total strong { font-family: var(--f-titulo); font-size: 1.6rem; color: var(--magenta); }
+  .enviar { width: 100%; }
+  .enviar[aria-disabled='true'] { opacity: .45; cursor: not-allowed; box-shadow: none; }
+  .nota { margin: 0; font-size: .88rem; color: var(--texto-suave); }
+
+  .detalles { margin-top: 1.6rem; }
+  .detalles details { border-bottom: 1px solid var(--borde); padding: .9rem 0; }
+  .detalles summary { cursor: pointer; font-family: var(--f-titulo); font-weight: 600; font-size: 1.15rem; color: var(--ciruela); }
+  .detalles p { margin: .6rem 0 0; color: var(--texto-suave); }
+  .relacionados { background: #fff; }
+
+  @media (min-width: 960px) {
+    .ficha-grid { grid-template-columns: 1.05fr 1fr; gap: 3.5rem; }
+    .info { position: sticky; top: 96px; }
+  }
+</style>

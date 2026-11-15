@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import TarjetaProducto from '../components/TarjetaProducto.astro';
+import Licencias from '../components/Licencias.astro';
+import Sellos from '../components/Sellos.astro';
+import { LINEAS, PRODUCTOS } from '../lib/catalogo';
+---
+<Base title="Tienda de pijamas en Bogotá | Tejiendo Sueños" description="Todas nuestras pijamas: familiares, navideñas, de pareja, dama, caballero, niños, batas y pantuflas. Algodón certificado y diseños propios.">
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Tienda</nav>
+      <h1>Todas nuestras pijamas</h1>
+      <p>Los precios son por persona. Escoge el diseño, arma las tallas de tu familia y te confirmamos el pedido por WhatsApp.</p>
+      <nav class="filtros" aria-label="Líneas">
+        {LINEAS.map((l) => <a href={`/${l.slug}`}>{l.nombre}</a>)}
+      </nav>
+    </div>
+  </section>
+  <section class="seccion">
+    <div class="contenedor">
+      <div class="rejilla-productos">
+        {PRODUCTOS.map((p, i) => <TarjetaProducto p={p} prioridad={i < 4} />)}
+      </div>
+      <div class="lic"><Licencias /></div>
+      <div class="lic"><Sellos /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .filtros { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.4rem; }
+  .filtros a { padding: .5rem 1rem; border-radius: 999px; background: #fff; border: 1.5px solid var(--borde); color: var(--ciruela); text-decoration: none; font-weight: 700; font-size: .95rem; }
+  .filtros a:hover { border-color: var(--magenta); color: var(--magenta); }
+  .lic { margin-top: 3rem; }
+</style>

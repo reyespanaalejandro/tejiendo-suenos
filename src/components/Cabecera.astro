@@ -1,0 +1,53 @@
+---
+import Logo from './Logo.astro';
+import { NEGOCIO, BORRADOR, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
+
+const actual = Astro.url.pathname.replace(/\/$/, '') || '/';
+const menu = [
+  { href: '/tienda', texto: 'Tienda' },
+  { href: '/pijamas-familiares', texto: 'Familiares' },
+  { href: '/pijamas-navidenas', texto: 'Navidad' },
+  { href: '/pijamas-personalizadas', texto: 'Personalizadas' },
+  { href: '/nosotros', texto: 'Nosotros' },
+  { href: '/pijamas-al-por-mayor', texto: 'Por mayor' },
+  { href: '/contacto', texto: 'Contacto' },
+];
+---
+{BORRADOR && <div class="borrador">Borrador de diseño · Precios y referencias por confirmar</div>}
+<header class="cabecera">
+  <div class="contenedor cabecera-in">
+    <a href="/" class="cabecera-logo" aria-label="Tejiendo Sueños, inicio"><Logo alto={52} /></a>
+    <nav class="menu" aria-label="Menú principal">
+      {menu.map((m) => <a href={m.href} aria-current={actual === m.href ? 'page' : undefined}>{m.texto}</a>)}
+    </nav>
+    <div class="cabecera-acciones">
+      <a class="boton boton-wa cabecera-cta" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="cabecera" target="_blank" rel="noopener">Escríbenos</a>
+      <details class="menu-movil">
+        <summary aria-label="Abrir menú"><span></span><span></span><span></span></summary>
+        <nav aria-label="Menú">
+          {menu.map((m) => <a href={m.href}>{m.texto}</a>)}
+          <a class="boton boton-wa" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="menu" target="_blank" rel="noopener">WhatsApp {NEGOCIO.whatsappVisible}</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<style>
+  .borrador { background: var(--ciruela); color: #fff; text-align: center; font-size: .82rem; font-weight: 700; letter-spacing: .04em; padding: .4rem 1rem; }
+  .cabecera { position: sticky; top: 0; z-index: 20; background: rgba(255, 250, 245, .94); backdrop-filter: blur(10px); border-bottom: 1px solid var(--borde); }
+  .cabecera-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 72px; }
+  .menu { display: none; gap: 1.3rem; }
+  .menu a { color: var(--texto); text-decoration: none; font-weight: 700; font-size: .95rem; padding: .3rem 0; border-bottom: 2px solid transparent; }
+  .menu a:hover, .menu a[aria-current='page'] { color: var(--magenta); border-color: var(--magenta); }
+  .cabecera-acciones { display: flex; align-items: center; gap: .6rem; }
+  .cabecera-cta { min-height: 44px; padding: .5rem 1.1rem; font-size: 1rem; }
+  .menu-movil summary { list-style: none; cursor: pointer; width: 44px; height: 44px; display: grid; place-content: center; gap: 5px; border-radius: 12px; border: 1.5px solid var(--borde); }
+  .menu-movil summary::-webkit-details-marker { display: none; }
+  .menu-movil summary span { display: block; width: 20px; height: 2px; background: var(--ciruela); border-radius: 2px; }
+  .menu-movil nav { position: absolute; left: 0; right: 0; top: 100%; background: var(--crema); border-bottom: 1px solid var(--borde); padding: .6rem 16px 1.2rem; display: grid; gap: .1rem; box-shadow: var(--sombra); }
+  .menu-movil nav a:not(.boton) { padding: .75rem 0; font-weight: 700; color: var(--ciruela); text-decoration: none; border-bottom: 1px solid var(--borde); font-size: 1.05rem; }
+  .menu-movil nav .boton { margin-top: .8rem; }
+  @media (min-width: 1100px) { .menu { display: flex; } .menu-movil { display: none; } }
+  @media (max-width: 460px) { .cabecera-cta { display: none; } }
+</style>

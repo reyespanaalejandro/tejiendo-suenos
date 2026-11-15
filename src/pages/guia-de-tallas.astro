@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { TALLAS } from '../lib/catalogo';
+import { whatsappUrl } from '../lib/negocio';
+const msg = 'Hola, Tejiendo Sueños. Necesito ayuda para escoger la talla. Mido ___ y peso ___.';
+---
+<Base title="Guía de tallas de pijamas | Tejiendo Sueños" description="Cómo escoger la talla de tu pijama: tallas de adulto S a XL, niños 2 a 16 y pantuflas 35 a 45." mensajeWa={msg}>
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Guía de tallas</nav>
+      <h1>Guía de tallas</h1>
+      <p>Nuestras tallas son reales y se mantienen igual en cada pedido. Si tienes dudas, escríbenos tu estatura y tu peso y te recomendamos la talla.</p>
+    </div>
+  </section>
+  <section class="seccion">
+    <div class="contenedor guia">
+      <div class="tabla-wrap">
+        <table>
+          <caption>Adultos (dama y caballero)</caption>
+          <thead><tr><th scope="col">Talla</th><th scope="col">Pecho (cm)</th><th scope="col">Cadera (cm)</th><th scope="col">Largo pantalón (cm)</th></tr></thead>
+          <tbody>{TALLAS.adulto.map((t) => <tr><th scope="row">{t}</th><td>—</td><td>—</td><td>—</td></tr>)}</tbody>
+        </table>
+      </div>
+      <div class="tabla-wrap">
+        <table>
+          <caption>Niños y niñas</caption>
+          <thead><tr><th scope="col">Talla</th><th scope="col">Edad aprox.</th><th scope="col">Estatura (cm)</th></tr></thead>
+          <tbody>{TALLAS.ninos.map((t) => <tr><th scope="row">{t}</th><td>—</td><td>—</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p><span class="pendiente">Las medidas en centímetros están por confirmar con la fábrica.</span></p>
+      <p>Pantuflas: tallas de la 35 a la 45. Medias térmicas: talla única.</p>
+      <p>¿Necesitas una talla más grande? <a href="/pijamas-personalizadas">Te la hacemos a la medida</a>.</p>
+      <a class="boton boton-wa" href={whatsappUrl(msg)} data-wa="guia-tallas" target="_blank" rel="noopener">Pedir ayuda con mi talla</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .guia { display: grid; gap: 1.6rem; max-width: 820px; }
+  .guia p { margin: 0; }
+  .guia .boton { justify-self: start; }
+  .tabla-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); border-radius: 16px; overflow: hidden; font-variant-numeric: tabular-nums; }
+  caption { text-align: left; font-family: var(--f-titulo); font-weight: 600; font-size: 1.3rem; color: var(--ciruela); padding-bottom: .6rem; }
+  th, td { padding: .7rem 1rem; text-align: center; border-bottom: 1px solid var(--borde); }
+  thead th { background: var(--lila); font-size: .9rem; }
+  tbody th { color: var(--magenta); font-family: var(--f-titulo); font-size: 1.1rem; }
+</style>

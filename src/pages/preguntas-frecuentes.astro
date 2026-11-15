@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import { ENVIOS, NEGOCIO } from '../lib/negocio';
+
+const preguntas = [
+  { q: '¿El precio es por persona o por el set familiar?', a: 'Es por persona. Por ejemplo, una pijama familiar de $130.000 para mamá, papá e hijo cuesta $390.000. Las pantuflas tienen precio por par.' },
+  { q: '¿De qué material son las pijamas?', a: 'De algodón colombiano con sello TEKS, hipoalergénico. No se estira ni se encoge, y la composición de la etiqueta es la real.' },
+  { q: '¿Cuánto duran?', a: 'Años. Tenemos pijamas de 8 años que siguen en buen estado, y a los niños les quedan pequeñas antes de que se dañen. Por eso las costuras tienen garantía de por vida.' },
+  { q: '¿Tienen bolsillos?', a: 'Sí, nuestras pijamas tienen bolsillos.' },
+  { q: '¿Qué diseños tienen?', a: 'Diseños propios que renovamos cada tres meses: familiares, navideños, ejecutivas, divertidas, náuticas y más. También tenemos superhéroes y equipos de fútbol: pregúntanos por WhatsApp.' },
+  { q: '¿Hacen envíos?', a: `${ENVIOS.nacional} ${ENVIOS.bogota}` },
+  { q: '¿Puedo cambiar la talla?', a: 'Sí, puedes cambiar la pijama por otra talla. Si llega con un defecto, también te la cambiamos. No hacemos devolución de dinero.' },
+  { q: '¿Puedo ir a medírmela?', a: `Claro. Te esperamos en el ${NEGOCIO.tienda.centroComercial}, ${NEGOCIO.tienda.local}, en ${NEGOCIO.tienda.zona}.` },
+  { q: '¿Hacen tallas grandes?', a: 'Sí. Si no encuentras tu talla, te hacemos la pijama a la medida.' },
+  { q: '¿Venden al por mayor?', a: 'Sí, somos fábrica y surtimos tiendas en toda Colombia. Mira nuestra página de ventas al por mayor.' },
+];
+const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: preguntas.map((p) => ({ '@type': 'Question', name: p.q, acceptedAnswer: { '@type': 'Answer', text: p.a } })) };
+---
+<Base title="Preguntas frecuentes | Tejiendo Sueños" description="Precios por persona, material, durabilidad, envíos, cambios y tallas de las pijamas Tejiendo Sueños.">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Preguntas frecuentes</nav>
+      <h1>Preguntas frecuentes</h1>
+      <p>Lo que más nos preguntan antes de comprar. Si tu pregunta no está aquí, escríbenos.</p>
+    </div>
+  </section>
+  <section class="seccion">
+    <div class="contenedor preguntas">
+      {preguntas.map((p, i) => <details open={i === 0}><summary>{p.q}</summary><p>{p.a}</p></details>)}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .preguntas { max-width: 820px; }
+  details { border-bottom: 1px solid var(--borde); padding: 1.1rem 0; }
+  summary { cursor: pointer; font-family: var(--f-titulo); font-weight: 600; font-size: 1.2rem; color: var(--ciruela); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; color: var(--magenta); font-size: 1.5rem; line-height: 1; }
+  details[open] summary::after { content: '–'; }
+  details p { margin: .7rem 0 0; color: var(--texto-suave); }
+</style>

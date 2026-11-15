@@ -1,0 +1,59 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { foto } from '../lib/catalogo';
+import { whatsappUrl } from '../lib/negocio';
+
+const msg = 'Hola, Tejiendo Sueños. Quiero una pijama personalizada. Les cuento mi idea:';
+const opciones = [
+  { t: 'Con nombre o iniciales', d: 'Bordamos o estampamos el nombre de cada integrante de la familia en la pijama que escojas.' },
+  { t: 'Para tu evento', d: 'Pijamadas, cumpleaños, despedidas de soltera, baby showers o la foto de Navidad: todos con la misma pijama.' },
+  { t: 'Tallas grandes a la medida', d: 'Si te cuesta encontrar tu talla, te hacemos la pijama a tus medidas, con el diseño que te guste.' },
+  { t: 'Con tu diseño', d: 'Si tienes una idea, nuestro diseñador la convierte en un estampado para tu pijama.' },
+];
+---
+<Base title="Pijamas personalizadas con nombre en Bogotá | Tejiendo Sueños" description="Pijamas personalizadas con nombres, iniciales o tu diseño. Para eventos, pijamadas, regalos y tallas grandes a la medida. Hechas en nuestra fábrica en Bogotá." mensajeWa={msg}>
+  <section class="pagina-cabeza">
+    <div class="contenedor cab">
+      <div>
+        <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Personalizadas</nav>
+        <h1>Pijamas personalizadas para tu familia o tu evento</h1>
+        <p>Como somos fábrica, podemos hacer la pijama a tu manera. Cuéntanos tu idea por WhatsApp y te decimos cómo, cuánto cuesta y cuándo está lista.</p>
+        <a class="boton boton-wa" href={whatsappUrl(msg)} data-wa="personalizadas" target="_blank" rel="noopener">Contar mi idea</a>
+      </div>
+      <Picture src={foto('familia-ejecutiva-verde')} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 340px, 80vw" alt="Familia con pijamas ejecutivas iguales a cuadros verdes" loading="eager" />
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor">
+      <h2>¿Qué podemos personalizar?</h2>
+      <div class="opciones">
+        {opciones.map((o) => <article><h3>{o.t}</h3><p>{o.d}</p></article>)}
+      </div>
+
+      <h2 class="mt">Cómo funciona</h2>
+      <ol class="pasos">
+        <li><strong>Nos cuentas tu idea</strong> por WhatsApp: qué quieres, para cuántas personas y para cuándo.</li>
+        <li><strong>Te enviamos la propuesta</strong> con el diseño, el precio y la fecha de entrega.</li>
+        <li><strong>La fabricamos</strong> en nuestro taller en Bogotá. Un personalizado sobre una pijama que ya tenemos está en 2 a 3 días hábiles; uno hecho desde cero, en unos 5 días hábiles.</li>
+      </ol>
+      <p class="pendiente-nota"><span class="pendiente">Por confirmar: costo adicional de la personalización y pedido mínimo</span></p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cab { display: grid; gap: 1.6rem; align-items: center; }
+  .cab :global(img) { border-radius: 28px 28px 28px 100px; width: 100%; max-width: 340px; display: none; }
+  .cab .boton { margin-top: 1.4rem; }
+  @media (min-width: 900px) { .cab { grid-template-columns: 1.6fr 1fr; } .cab :global(img) { display: block; justify-self: end; } }
+  .opciones { display: grid; gap: 1rem; margin-top: 1.4rem; }
+  .opciones article { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.4rem; }
+  .opciones p { margin: 0; color: var(--texto-suave); }
+  @media (min-width: 760px) { .opciones { grid-template-columns: repeat(2, 1fr); } }
+  .mt { margin-top: 3rem; }
+  .pasos { display: grid; gap: .9rem; padding-left: 1.3rem; max-width: 760px; }
+  .pasos li { padding-left: .3rem; }
+  .pendiente-nota { margin-top: 1.4rem; }
+</style>
