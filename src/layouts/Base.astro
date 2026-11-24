@@ -33,6 +33,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content="#a3197c" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <slot name="head" />
+    <!-- Etiqueta de Google (Google Ads AW-18592378672) -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-18592378672"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18592378672');
+    </script>
   </head>
   <body>
     <Cabecera />
@@ -46,13 +54,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </a>
 
     <script>
-      // Medición: cada clic a WhatsApp envía un evento a GA4 / Google Ads cuando la etiqueta esté instalada.
+      // Medición de conversiones de Google Ads:
+      // - "Clic en WhatsApp": cualquier enlace con data-wa o que vaya a wa.me
+      // - "Clic en Cómo llegar": cualquier enlace a Google Maps
+      const CONV_WHATSAPP = 'AW-18592378672/DCghCO3woL4dELDexKFF';
+      const CONV_COMO_LLEGAR = 'AW-18592378672/kf3gCL68pr4dELDexKFF';
       document.addEventListener('click', (e) => {
-        const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-wa]');
+        const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
         if (!a) return;
         const w = window as unknown as { gtag?: (...x: unknown[]) => void };
-        w.gtag?.('event', 'contacto_whatsapp', { origen: a.dataset.wa, pagina: location.pathname });
+        if (a.dataset.wa !== undefined || a.href.includes('wa.me/')) {
+          if (a.getAttribute('aria-disabled') === 'true') return;
+          w.gtag?.('event', 'conversion', { send_to: CONV_WHATSAPP });
+          w.gtag?.('event', 'contacto_whatsapp', { origen: a.dataset.wa || 'enlace', pagina: location.pathname });
+        } else if (/google\.[a-z.]+\/maps|maps\.app\.goo\.gl|goo\.gl\/maps/.test(a.href)) {
+          w.gtag?.('event', 'conversion', { send_to: CONV_COMO_LLEGAR });
+          w.gtag?.('event', 'como_llegar', { pagina: location.pathname });
+        }
       });
+    </script>
     </script>
   </body>
 </html>

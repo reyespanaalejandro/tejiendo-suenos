@@ -294,7 +294,9 @@ const jsonLd = {
         v('interes') && `Me interesa: ${v('interes')}`,
         '¿Me envían el catálogo y los precios mayoristas?',
       ].filter(Boolean);
-      (window as unknown as { gtag?: (...x: unknown[]) => void }).gtag?.('event', 'contacto_whatsapp', { origen: 'formulario-mayor' });
+      const g = (window as unknown as { gtag?: (...x: unknown[]) => void }).gtag;
+      g?.('event', 'conversion', { send_to: 'AW-18592378672/DCghCO3woL4dELDexKFF' });
+      g?.('event', 'contacto_whatsapp', { origen: 'formulario-mayor' });
       window.open(`https://wa.me/${form.dataset.waNumber}?text=${encodeURIComponent(lineas.join('\n'))}`, '_blank', 'noopener');
     });
   </script>
