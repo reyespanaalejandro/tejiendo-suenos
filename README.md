@@ -8,7 +8,8 @@ Sitio de Tejiendo Sueños, fábrica de pijamas en Bogotá. Hecho con [Astro](htt
 - **Compartidas:** `/nosotros`, `/contacto`, `/envios-cambios-y-garantia`, `/preguntas-frecuentes`.
 
 ## Dónde está cada cosa
-- `src/lib/negocio.ts`: datos del negocio (WhatsApp, dirección, horario, envíos). **Única fuente**: si algo cambia, se cambia aquí. `BORRADOR = true` muestra la franja de borrador.
+- `src/lib/negocio.ts`: datos del negocio (WhatsApp, las dos tiendas con dirección y horario, envíos). **Única fuente**: si algo cambia, se cambia aquí. `BORRADOR = true` muestra la franja de borrador.
+- `src/lib/resenas.ts`: reseñas reales de Google de las dos tiendas y el resumen (promedio y total). Si llegan reseñas nuevas, se actualiza `RESUMEN_GOOGLE` y se agregan aquí.
 - `src/lib/catalogo.ts`: productos, precios por persona, líneas y tallas. Para agregar un producto, se agrega aquí con su foto en `src/assets/fotos/`.
 - `src/pages/pijamas-al-por-mayor.astro`: textos y estructura de la página de por mayor.
 - `src/assets/fotos/`: fotos (Astro las convierte a AVIF/WebP en varios tamaños al compilar).

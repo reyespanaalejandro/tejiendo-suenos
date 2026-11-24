@@ -3,6 +3,9 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Sellos from '../components/Sellos.astro';
 import SinFoto from '../components/SinFoto.astro';
+import Tiendas from '../components/Tiendas.astro';
+import Resenas from '../components/Resenas.astro';
+import { RESENAS_INICIO, RESUMEN_GOOGLE } from '../lib/resenas';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
 import { LINEAS, PRODUCTOS, foto, pesos } from '../lib/catalogo';
 import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
@@ -23,6 +26,7 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
           <a class="boton boton-primario" href="/pijamas-familiares">Ver pijamas familiares</a>
           <a class="boton boton-borde" href="/tienda">Ver toda la tienda</a>
         </div>
+        <p class="hero-google"><span aria-hidden="true">★★★★★</span> <strong>{RESUMEN_GOOGLE.promedio.toLocaleString('es-CO', { minimumFractionDigits: 1 })}</strong> en Google · {RESUMEN_GOOGLE.total} opiniones de nuestras tiendas en Santafé y Bulevar Niza</p>
       </div>
       <div class="hero-foto">
         <Picture src={foto('familia-tortugas')} formats={['avif']} fallbackFormat="webp" widths={[640, 960, 1400]} sizes="(min-width: 960px) 580px, 100vw" alt="Familia de seis con pijamas iguales verde menta estampadas con tortugas" loading="eager" fetchpriority="high" />
@@ -59,6 +63,10 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
         {destacados.map((p) => <TarjetaProducto p={p} />)}
       </div>
     </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor"><Resenas resenas={RESENAS_INICIO} /></div>
   </section>
 
   <section class="seccion durabilidad">
@@ -124,16 +132,11 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
   </section>
 
   <section class="seccion visita">
-    <div class="contenedor visita-in">
-      <div>
-        <h2>Ven a tocarlas</h2>
-        <p>La mejor forma de entender la diferencia es sentir la tela. Te esperamos en el {NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}.</p>
-        <p class="visita-horario">{NEGOCIO.horario.map((h) => `${h.dias}: ${h.horas}`).join(' · ')}</p>
-      </div>
-      <div class="visita-ctas">
-        <a class="boton boton-primario" href={NEGOCIO.tienda.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a>
-        <a class="boton boton-wa" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="inicio-visita" target="_blank" rel="noopener">Escríbenos</a>
-      </div>
+    <div class="contenedor">
+      <span class="antetitulo">Nuestras tiendas</span>
+      <h2>Ven a tocarlas y a medírtelas</h2>
+      <p class="intro">La mejor forma de entender la diferencia es sentir la tela. Tenemos dos tiendas en Bogotá: visita la que te quede más cerca.</p>
+      <div class="visita-tiendas"><Tiendas /></div>
     </div>
   </section>
 </Base>
@@ -192,10 +195,9 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
   .historia-foto :global(img) { border-radius: 28px 120px 28px 28px; width: 100%; max-height: 520px; object-fit: cover; }
   @media (min-width: 900px) { .historia-grid { grid-template-columns: 1.2fr 1fr; gap: 4rem; } }
 
-  .visita { padding-block: clamp(40px, 6vw, 64px); }
-  .visita-in { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem; background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 2rem; }
-  .visita-in > div:first-child { flex: 1 1 420px; min-width: 0; }
-  .visita-in p { color: var(--texto-suave); margin: 0 0 .5rem; }
-  .visita-horario { font-size: .95rem; }
-  .visita-ctas { display: flex; flex-wrap: wrap; gap: .7rem; }
+  .hero-google { margin: 1.2rem 0 0; color: var(--texto-suave); font-size: .98rem; }
+  .hero-google span { color: #e8a317; letter-spacing: .06em; }
+  .hero-google strong { color: var(--ciruela); }
+  .visita { background: #fff; }
+  .visita-tiendas { margin-top: 1.6rem; }
 </style>

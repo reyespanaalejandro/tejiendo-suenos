@@ -1,0 +1,29 @@
+---
+import { NEGOCIO } from '../lib/negocio';
+interface Props { compacto?: boolean }
+const { compacto = false } = Astro.props;
+---
+<div class={`tiendas ${compacto ? 'compacto' : ''}`}>
+  {NEGOCIO.tiendas.map((t) => (
+    <article class="tienda">
+      <h3>Tienda {t.nombre}</h3>
+      <p class="lugar"><strong>{t.centroComercial}</strong><br />{t.local} · {t.direccion}<br />{t.zona}</p>
+      <ul class="horario">{t.horario.map((h) => <li><span>{h.dias}</span><span>{h.horas}</span></li>)}</ul>
+      <a class="boton boton-primario" href={t.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a>
+    </article>
+  ))}
+</div>
+
+<style>
+  .tiendas { display: grid; gap: 1rem; }
+  .tienda { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.5rem; display: flex; flex-direction: column; gap: .7rem; align-items: flex-start; }
+  .tienda h3 { margin: 0; color: var(--magenta); font-size: 1.35rem; }
+  .lugar { margin: 0; color: var(--texto-suave); }
+  .lugar strong { color: var(--ciruela); }
+  .horario { list-style: none; padding: 0; margin: 0; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
+  .horario li { display: flex; justify-content: space-between; gap: 1rem; padding: .35rem 0; border-bottom: 1px dashed var(--borde); }
+  .horario li span:first-child { font-weight: 700; }
+  .tienda .boton { margin-top: auto; }
+  .compacto .tienda { padding: 1.2rem; }
+  @media (min-width: 720px) { .tiendas { grid-template-columns: 1fr 1fr; } }
+</style>

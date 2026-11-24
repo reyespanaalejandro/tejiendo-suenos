@@ -43,7 +43,7 @@ const pasos = [
 ];
 
 const ventajas = [
-  ['Ves y tocas la tela antes de comprar', 'En nuestra tienda de Bulevar Niza o con visita a la fábrica.'],
+  ['Ves y tocas la tela antes de comprar', 'En nuestras tiendas de Santafé y Bulevar Niza, o con visita a la fábrica.'],
   ['Composición certificada', 'Algodón con sello TEKS: lo que dice la etiqueta es lo que lleva la prenda.'],
   ['Tintas sin plomo', 'Estampados con tintas certificadas, seguros para niños.'],
   ['Reposición rápida', 'Fabricamos en Bogotá: no esperas semanas por un contenedor.'],
@@ -55,7 +55,7 @@ const ventajas = [
 const preguntas = [
   { q: '¿Qué es una curva y cuál es el pedido mínimo?', a: 'Una curva es una referencia en todas sus tallas: en adultos S, M, L y XL, y en niños de la 2 a la 16. Al por mayor trabajamos por curvas completas y tú eliges los colores. Escríbenos y te contamos el mínimo según las referencias que te interesen.' },
   { q: '¿Hacen envíos fuera de Bogotá?', a: 'Sí, enviamos a toda Colombia con Interrapidísimo. En Bogotá también puedes recoger tu pedido.' },
-  { q: '¿Puedo ver los productos antes de hacer el pedido?', a: `Claro. Puedes visitarnos en nuestra tienda del ${NEGOCIO.tienda.centroComercial} (${NEGOCIO.tienda.local}) o coordinar una visita a la fábrica en Bogotá.` },
+  { q: '¿Puedo ver los productos antes de hacer el pedido?', a: `Claro. Puedes visitarnos en nuestras tiendas del ${NEGOCIO.tiendas.map((t) => `${t.centroComercial} (${t.local})`).join(' y del ')}, o coordinar una visita a la fábrica en Bogotá.` },
   { q: '¿Cómo puedo pagar?', a: 'Por transferencia, Bre-B, Nequi, Daviplata o link de pago con tarjeta.' },
   { q: '¿Entregan factura?', a: 'Sí, emitimos factura electrónica.' },
   { q: '¿Hacen pedidos personalizados o con el logo de mi empresa?', a: 'Sí. Podemos personalizar con nombres, iniciales o el diseño que necesites. Cuéntanos tu idea por WhatsApp y revisamos tiempos y costos.' },
@@ -63,16 +63,15 @@ const preguntas = [
 
 const jsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'ClothingStore',
+  '@type': 'Organization',
   name: NEGOCIO.nombre,
   description: 'Fábrica de pijamas en Bogotá. Venta al detal y al por mayor.',
   url: new URL('/pijamas-al-por-mayor', Astro.site).toString(),
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: `${NEGOCIO.tienda.direccion}, ${NEGOCIO.tienda.centroComercial}, ${NEGOCIO.tienda.local}`,
-    addressLocality: 'Bogotá',
-    addressCountry: 'CO',
-  },
+  location: NEGOCIO.tiendas.map((t) => ({
+    '@type': 'Place',
+    name: `${NEGOCIO.nombre} ${t.centroComercial}`,
+    address: { '@type': 'PostalAddress', streetAddress: `${t.direccion}, ${t.local}`, addressLocality: 'Bogotá', addressCountry: 'CO' },
+  })),
   sameAs: [NEGOCIO.instagram],
 };
 ---
@@ -257,9 +256,8 @@ const jsonLd = {
           <h2>Cuéntanos de tu negocio</h2>
           <p>Llena estos datos y se abre WhatsApp con tu mensaje listo para enviar. Te respondemos con el catálogo y los precios mayoristas.</p>
           <ul class="contacto-datos">
-            <li><strong>Tienda:</strong> {NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}, {NEGOCIO.tienda.zona}. <a href={NEGOCIO.tienda.mapsUrl} target="_blank" rel="noopener">Ver mapa</a></li>
+            {NEGOCIO.tiendas.map((t) => <li><strong>Tienda {t.nombre}:</strong> {t.centroComercial}, {t.local}. <a href={t.mapsUrl} target="_blank" rel="noopener">Ver mapa</a></li>)}
             <li><strong>WhatsApp:</strong> {NEGOCIO.whatsappVisible}</li>
-            <li><strong>Horario:</strong> {NEGOCIO.horario.map((h) => `${h.dias} ${h.horas}`).join(' · ')}</li>
           </ul>
         </div>
         <form class="form" id="form-mayor" data-wa-number={NEGOCIO.whatsapp}>

@@ -3,6 +3,8 @@ import { Picture } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import TarjetaProducto from '../../components/TarjetaProducto.astro';
 import SinFoto from '../../components/SinFoto.astro';
+import Resenas from '../../components/Resenas.astro';
+import { resenasPara, type Tema } from '../../lib/resenas';
 import { PRODUCTOS, TALLAS, LINEAS, foto, pesos, type Producto } from '../../lib/catalogo';
 import { NEGOCIO, ENVIOS } from '../../lib/negocio';
 
@@ -26,6 +28,10 @@ const grupos: { nombre: string; tallas: string[] }[] =
 
 const relacionados = PRODUCTOS.filter((x) => x.slug !== p.slug && x.lineas.some((l) => p.lineas.includes(l))).slice(0, 4);
 const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
+const temas: Tema[] = p.lineas.includes('pijamas-futboleras') ? ['futbol', 'calidad']
+  : p.tallaje === 'familia' ? ['familia', 'calidad']
+  : ['calidad', 'comodidad', 'diseno'];
+const resenas = resenasPara(temas, p.slug);
 ---
 <Base title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + unidad + '.' : ''} Algodón certificado TEKS, hecho en Bogotá.`}>
   <section class="seccion ficha">
@@ -73,6 +79,7 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
           </div>
           <a class="boton boton-wa enviar" id="enviar" aria-disabled="true" data-wa="producto" target="_blank" rel="noopener" href={`https://wa.me/${NEGOCIO.whatsapp}`}>Pedir por WhatsApp</a>
           <p class="nota">Te confirmamos disponibilidad y envío por WhatsApp. Puedes pagar por transferencia, Nequi, Daviplata, link de pago o contraentrega.</p>
+          <p class="nota">¿Prefieres medírtela? Encuéntrala en nuestras tiendas de {NEGOCIO.tiendas.map((t) => t.nombre).join(' y ')}. <a href="/contacto">Ver direcciones</a></p>
         </form>
 
         <div class="detalles">
@@ -93,6 +100,10 @@ const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
         </div>
       </div>
     </div>
+  </section>
+
+  <section class="seccion resenas-sec">
+    <div class="contenedor"><Resenas resenas={resenas} titulo="Quienes ya las tienen, opinan" compacto /></div>
   </section>
 
   {relacionados.length > 0 && (

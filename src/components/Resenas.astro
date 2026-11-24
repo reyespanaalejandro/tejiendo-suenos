@@ -1,0 +1,53 @@
+---
+import { RESUMEN_GOOGLE, type Resena } from '../lib/resenas';
+import { NEGOCIO } from '../lib/negocio';
+
+interface Props { resenas: Resena[]; titulo?: string; compacto?: boolean }
+const { resenas, titulo = 'Lo que dicen nuestros clientes', compacto = false } = Astro.props;
+const nombreTienda = (id: string) => NEGOCIO.tiendas.find((t) => t.id === id)?.nombre ?? '';
+const promedio = RESUMEN_GOOGLE.promedio.toLocaleString('es-CO', { minimumFractionDigits: 1 });
+---
+<div class={`resenas ${compacto ? 'compacto' : ''}`}>
+  <div class="resenas-cabeza">
+    <div>
+      {!compacto && <span class="antetitulo">Opiniones en Google</span>}
+      <h2>{titulo}</h2>
+    </div>
+    <p class="resumen">
+      <span class="estrellas" aria-hidden="true">★★★★★</span>
+      <strong>{promedio}</strong>
+      <span>{RESUMEN_GOOGLE.total} opiniones en Google de nuestras dos tiendas</span>
+    </p>
+  </div>
+  <ul class="tarjetas">
+    {resenas.map((r) => (
+      <li>
+        <span class="estrellas" aria-label="5 de 5 estrellas">★★★★★</span>
+        <blockquote>{r.texto}</blockquote>
+        <p class="autor"><strong>{r.nombre}</strong> · Tienda {nombreTienda(r.tienda)}</p>
+      </li>
+    ))}
+  </ul>
+  <p class="fuentes">
+    Ver todas las opiniones en Google:
+    {NEGOCIO.tiendas.map((t, i) => <>{i > 0 && ' · '}<a href={t.mapsUrl} target="_blank" rel="noopener">Tienda {t.nombre}</a></>)}
+  </p>
+</div>
+
+<style>
+  .resenas-cabeza { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: .6rem 2rem; }
+  .resenas-cabeza h2 { margin-bottom: .3rem; }
+  .compacto h2 { font-size: 1.6rem; }
+  .resumen { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin: 0 0 .5rem; color: var(--texto-suave); }
+  .resumen strong { font-family: var(--f-titulo); font-size: 1.6rem; color: var(--ciruela); line-height: 1; }
+  .estrellas { color: #e8a317; letter-spacing: .08em; }
+  .resumen .estrellas { font-size: 1.25rem; }
+  .tarjetas { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 1rem; }
+  .tarjetas li { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.3rem 1.4rem; display: flex; flex-direction: column; gap: .6rem; }
+  blockquote { margin: 0; font-size: 1.05rem; color: var(--texto); line-height: 1.55; flex: 1; }
+  .autor { margin: 0; font-size: .9rem; color: var(--texto-suave); }
+  .autor strong { color: var(--ciruela); }
+  .fuentes { margin: 1.2rem 0 0; font-size: .92rem; color: var(--texto-suave); }
+  @media (min-width: 760px) { .tarjetas { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1060px) { .tarjetas { grid-template-columns: repeat(3, 1fr); } }
+</style>

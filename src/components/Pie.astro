@@ -29,11 +29,10 @@ import { LINEAS } from '../lib/catalogo';
       </ul>
     </div>
     <div>
-      <h2>Visítanos</h2>
-      <p>{NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}<br />{NEGOCIO.tienda.zona}</p>
-      <ul class="pie-horario">
-        {NEGOCIO.horario.map((h) => <li><span>{h.dias}</span> {h.horas}</li>)}
-      </ul>
+      <h2>Nuestras tiendas</h2>
+      {NEGOCIO.tiendas.map((t) => (
+        <p class="pie-tienda"><strong>{t.centroComercial}</strong><br />{t.local}<br />{t.horario.map((h) => `${h.dias}: ${h.horas}`).join(' · ')}<br /><a href={t.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a></p>
+      ))}
       <p>WhatsApp: <strong>{NEGOCIO.whatsappVisible}</strong></p>
       <p><a href={NEGOCIO.instagram} target="_blank" rel="noopener">Instagram</a></p>
     </div>
@@ -49,8 +48,8 @@ import { LINEAS } from '../lib/catalogo';
   .pie a { color: var(--texto); text-decoration: none; }
   .pie a:hover { color: var(--magenta); text-decoration: underline; }
   .pie-marca p { margin-top: 1rem; max-width: 320px; }
-  .pie-horario span { font-weight: 700; color: var(--texto); }
-  .pie-horario { margin-bottom: .8rem !important; }
+  .pie-tienda { margin-bottom: 1rem !important; }
+  .pie-tienda strong { color: var(--texto); }
   .pie p { margin: 0 0 .6rem; }
   .pie-legal { margin-top: 2.4rem; padding-top: 1.2rem; border-top: 1px solid var(--borde); font-size: .85rem; }
   @media (min-width: 720px) { .pie-grid { grid-template-columns: repeat(2, 1fr); } }

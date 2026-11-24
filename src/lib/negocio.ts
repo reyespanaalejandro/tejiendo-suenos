@@ -5,17 +5,34 @@ export const NEGOCIO = {
   nombre: 'Tejiendo Sueños',
   whatsapp: '573059399326',
   whatsappVisible: '305 939 9326',
-  tienda: {
-    centroComercial: 'Centro Comercial Bulevar Niza',
-    local: 'Local 163',
-    direccion: 'Cra. 58 #127-59',
-    zona: 'Suba, Bogotá',
-    mapsUrl: 'https://maps.google.com/?q=Centro+Comercial+Bulevar+Niza+Bogota',
-  },
-  horario: [
-    { dias: 'Lunes a jueves', horas: '10:30 a. m. – 7:30 p. m.' },
-    { dias: 'Viernes y sábado', horas: '10:30 a. m. – 8:00 p. m.' },
-    { dias: 'Domingo', horas: '10:30 a. m. – 7:00 p. m.' },
+  // Las dos tiendas. Santafé va primero: es la sede que queremos impulsar.
+  tiendas: [
+    {
+      id: 'santafe',
+      nombre: 'Santafé',
+      centroComercial: 'Centro Comercial Santafé',
+      local: 'Local 3-110, Plaza Ecuador',
+      direccion: 'Cl. 185 #45-03',
+      zona: 'Norte de Bogotá',
+      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pijamas+Tejiendo+Sue%C3%B1os+Centro+comercial+Santaf%C3%A9&query_place_id=ChIJ9c2eRkaFP44RcOuUA9fspoQ',
+      horario: [
+        { dias: 'Lunes a jueves', horas: '10:30 a. m. – 8:00 p. m.' },
+        { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:30 p. m.' },
+      ],
+    },
+    {
+      id: 'bulevar',
+      nombre: 'Bulevar Niza',
+      centroComercial: 'Centro Comercial Bulevar Niza',
+      local: 'Local 163',
+      direccion: 'Cl. 127D #58-99',
+      zona: 'Suba, Bogotá',
+      mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Pijamas+Tejiendo+Sue%C3%B1os+Centro+Comercial+Bulevar+Niza',
+      horario: [
+        { dias: 'Lunes a jueves', horas: '10:30 a. m. – 7:30 p. m.' },
+        { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:00 p. m.' },
+      ],
+    },
   ],
   instagram: 'https://www.instagram.com/pijamastejiendosuenos/',
   fabricaDesde: 2018,

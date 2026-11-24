@@ -1,31 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
+import Tiendas from '../components/Tiendas.astro';
 import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/negocio';
 ---
-<Base title="Contacto y tienda en Bulevar Niza | Tejiendo Sueños" description="Escríbenos por WhatsApp o visítanos en el Centro Comercial Bulevar Niza, local 163, Bogotá. Horarios y cómo llegar.">
+<Base title="Contacto y tiendas en Bogotá | Tejiendo Sueños" description="Escríbenos por WhatsApp o visítanos en nuestras tiendas del Centro Comercial Santafé (local 3-110) y Bulevar Niza (local 163) en Bogotá. Horarios y cómo llegar.">
   <section class="pagina-cabeza">
     <div class="contenedor">
       <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Contacto</nav>
-      <h1>Escríbenos o ven a la tienda</h1>
-      <p>Te responde una persona del equipo, en el horario de la tienda.</p>
+      <h1>Escríbenos o ven a una de nuestras tiendas</h1>
+      <p>En las dos tiendas puedes ver, tocar y medirte las pijamas. Escoge la que te quede más cerca.</p>
     </div>
   </section>
 
   <section class="seccion">
+    <div class="contenedor">
+      <h2>Nuestras tiendas</h2>
+      <Tiendas />
+      <p class="nota-tiendas">En temporada alta ampliamos el horario.</p>
+    </div>
+  </section>
+
+  <section class="seccion fondo-blanco">
     <div class="contenedor tarjetas">
       <article>
         <h2>WhatsApp</h2>
         <p class="dato">{NEGOCIO.whatsappVisible}</p>
         <p>Para pedidos, tallas, envíos, cambios y personalizados.</p>
         <a class="boton boton-wa" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="contacto" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-      </article>
-      <article>
-        <h2>Tienda</h2>
-        <p class="dato">{NEGOCIO.tienda.centroComercial}, {NEGOCIO.tienda.local}</p>
-        <p>{NEGOCIO.tienda.direccion}, {NEGOCIO.tienda.zona}</p>
-        <ul class="horario">{NEGOCIO.horario.map((h) => <li><span>{h.dias}</span><span>{h.horas}</span></li>)}</ul>
-        <p class="nota">En temporada alta ampliamos el horario.</p>
-        <a class="boton boton-primario" href={NEGOCIO.tienda.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a>
       </article>
       <article>
         <h2>Ventas al por mayor</h2>
@@ -48,5 +49,7 @@ import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/neg
   .horario li span:first-child { font-weight: 700; }
   .nota { font-size: .9rem; }
   .enlace-wa { font-weight: 700; font-size: .95rem; }
-  @media (min-width: 960px) { .tarjetas { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 760px) { .tarjetas { grid-template-columns: repeat(2, 1fr); } }
+  .nota-tiendas { margin-top: 1rem; color: var(--texto-suave); font-size: .95rem; }
+  .fondo-blanco { background: #fff; }
 </style>

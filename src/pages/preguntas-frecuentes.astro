@@ -10,7 +10,7 @@ const preguntas = [
   { q: '¿Qué diseños tienen?', a: 'Diseños propios que renovamos cada tres meses: familiares, navideños, ejecutivas, náuticas y más. También tenemos pijamas con personajes, de superhéroes y de equipos de fútbol.' },
   { q: '¿Hacen envíos?', a: `${ENVIOS.nacional} ${ENVIOS.bogota}` },
   { q: '¿Puedo cambiar la talla?', a: 'Sí, puedes cambiar la pijama por otra talla. Si llega con un defecto, también te la cambiamos. No hacemos devolución de dinero.' },
-  { q: '¿Puedo ir a medírmela?', a: `Claro. Te esperamos en el ${NEGOCIO.tienda.centroComercial}, ${NEGOCIO.tienda.local}, en ${NEGOCIO.tienda.zona}.` },
+  { q: '¿Puedo ir a medírmela?', a: `Claro. Tenemos dos tiendas en Bogotá: ${NEGOCIO.tiendas.map((t) => `${t.centroComercial}, ${t.local}`).join(', y ')}. Ve a la que te quede más cerca.` },
   { q: '¿Hacen tallas grandes?', a: 'Sí. Si no encuentras tu talla, te hacemos la pijama a la medida.' },
   { q: '¿Venden al por mayor?', a: 'Sí, somos fábrica y surtimos tiendas en toda Colombia. Mira nuestra página de ventas al por mayor.' },
 ];
