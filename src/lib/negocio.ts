@@ -47,7 +47,7 @@ export const MENSAJE_MAYOR =
   'Hola, Tejiendo Sueños. Tengo un negocio y me interesa comprar pijamas al por mayor. ¿Me envían el catálogo y los precios mayoristas?';
 
 // Muestra la franja "Borrador" arriba del sitio. Poner en false al lanzar.
-export const BORRADOR = true;
+export const BORRADOR = false;
 
 export const MENSAJE_GENERAL = 'Hola, Tejiendo Sueños. Quiero información sobre sus pijamas.';
 

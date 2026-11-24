@@ -31,4 +31,4 @@ Configuración: framework **Astro**, comando `npm run build`, carpeta de salida 
 - [ ] Fotos reales de la fábrica y del equipo (sección "Quiénes somos").
 - [ ] Confirmar pedido mínimo por mayor y tiempos de producción.
 - [ ] Instalar GA4 y la etiqueta de Google Ads (el evento `contacto_whatsapp_mayor` ya se dispara en cada clic a WhatsApp).
-- [ ] Cambiar `site` en `astro.config.mjs` por el dominio definitivo.
+- [x] Dominio: pijamastejiendosuenos.com (Cloudflare).
