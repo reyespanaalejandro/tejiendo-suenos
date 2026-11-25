@@ -1,5 +1,16 @@
 ---
+import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import { foto } from '../lib/catalogo';
+
+const galeria = [
+  { f: 'tienda-pijamas-centro-comercial-santafe-interior', alt: 'Interior de la tienda Tejiendo Sueños en el Centro Comercial Santafé con pijamas para toda la familia' },
+  { f: 'tienda-pijamas-centro-comercial-santafe-pijamas-familiares', alt: 'Pijamas familiares exhibidas en la tienda Tejiendo Sueños del Centro Comercial Santafé' },
+  { f: 'tienda-pijamas-centro-comercial-santafe-pantuflas', alt: 'Pantuflas y pijamas en la tienda Tejiendo Sueños del Centro Comercial Santafé' },
+  { f: 'tienda-pijamas-bulevar-niza-interior', alt: 'Interior de la tienda Tejiendo Sueños en el Centro Comercial Bulevar Niza' },
+  { f: 'tienda-pijamas-bulevar-niza-mostrador', alt: 'Mostrador con el logo de Tejiendo Sueños en la tienda de Bulevar Niza' },
+  { f: 'tienda-pijamas-bulevar-niza-vitrina-familiar', alt: 'Vitrina de la tienda Tejiendo Sueños en Bulevar Niza con pijamas familiares' },
+];
 import Tiendas from '../components/Tiendas.astro';
 import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/negocio';
 ---
@@ -16,7 +27,9 @@ import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/neg
     <div class="contenedor">
       <h2>Nuestras tiendas</h2>
       <Tiendas />
-      <p class="nota-tiendas">En temporada alta ampliamos el horario.</p>
+      <p class="nota-tiendas">En temporada alta ampliamos el horario. Los festivos abrimos de 11:00 a. m. a 7:00 p. m.</p>
+      <h2 class="mt">Así se ven nuestras tiendas</h2>
+      <div class="galeria-tiendas">{galeria.map((g) => <Picture src={foto(g.f)} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 720]} sizes="(min-width: 900px) 30vw, 46vw" alt={g.alt} loading="lazy" />)}</div>
     </div>
   </section>
 
@@ -52,4 +65,8 @@ import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL, MENSAJE_MAYOR } from '../lib/neg
   @media (min-width: 760px) { .tarjetas { grid-template-columns: repeat(2, 1fr); } }
   .nota-tiendas { margin-top: 1rem; color: var(--texto-suave); font-size: .95rem; }
   .fondo-blanco { background: #fff; }
+  .mt { margin-top: 2.6rem; }
+  .galeria-tiendas { display: grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; margin-top: 1rem; }
+  .galeria-tiendas :global(img) { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 18px; }
+  @media (min-width: 900px) { .galeria-tiendas { grid-template-columns: repeat(3, 1fr); } }
 </style>

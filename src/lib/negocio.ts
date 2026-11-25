@@ -18,7 +18,10 @@ export const NEGOCIO = {
       horario: [
         { dias: 'Lunes a jueves', horas: '10:30 a. m. – 8:00 p. m.' },
         { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:30 p. m.' },
+        { dias: 'Festivos', horas: '11:00 a. m. – 7:00 p. m.' },
       ],
+      foto: 'tienda-pijamas-centro-comercial-santafe-fachada-bogota',
+      fotoAlt: 'Fachada de la tienda de pijamas Tejiendo Sueños en el Centro Comercial Santafé, Bogotá',
     },
     {
       id: 'bulevar',
@@ -31,7 +34,10 @@ export const NEGOCIO = {
       horario: [
         { dias: 'Lunes a jueves', horas: '10:30 a. m. – 7:30 p. m.' },
         { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:00 p. m.' },
+        { dias: 'Festivos', horas: '11:00 a. m. – 7:00 p. m.' },
       ],
+      foto: 'tienda-pijamas-bulevar-niza-fachada-bogota',
+      fotoAlt: 'Fachada de la tienda de pijamas Tejiendo Sueños en el Centro Comercial Bulevar Niza, Bogotá',
     },
   ],
   instagram: 'https://www.instagram.com/pijamastejiendosuenos/',
@@ -53,5 +59,22 @@ export const MENSAJE_GENERAL = 'Hola, Tejiendo Sueños. Quiero información sobr
 
 export const ENVIOS = {
   nacional: 'Enviamos a toda Colombia con Interrapidísimo. El envío cuesta entre $15.000 y $20.000 según la ciudad, y puedes pagar contraentrega.',
-  bogota: 'En Bogotá, si la pijama está en tienda, te la llevamos máximo al día siguiente con domiciliario.',
+  bogota: 'En Bogotá te la llevamos con domiciliario: si la pijama está en la tienda sale de una vez y te llega el mismo día; si está en la fábrica, te llega al día siguiente. El valor del domicilio depende de tu barrio y te lo decimos por WhatsApp.',
+  corto: [
+    { t: 'Bogotá', d: 'Domicilio el mismo día o al día siguiente' },
+    { t: 'Toda Colombia', d: 'Interrapidísimo, $15.000 a $20.000' },
+    { t: 'Contraentrega', d: 'Pagas cuando recibes' },
+  ],
 };
+
+export const PAGOS = {
+  tienda: 'En nuestras tiendas recibimos todos los medios de pago: efectivo, tarjeta débito o crédito, Bre-B, Nequi y Daviplata.',
+  distancia: 'A distancia puedes pagar por transferencia, Bre-B, Nequi, Daviplata o con tarjeta por un link de pago seguro que te enviamos por WhatsApp. También puedes pagar contraentrega.',
+};
+
+// Cuidado y lavado (consejos de Rocío). Se muestran en cada producto y en la página de envíos.
+export const CUIDADO = [
+  'En la primera lavada, agrégale una copita de vinagre blanco y no la metas a la secadora. Después ya la puedes lavar normal.',
+  'Usa detergente para ropa delicada y un buen suavizante.',
+  'Trata de no lavarla con toallas ni con tenis: así no le salen motas.',
+];

@@ -4,7 +4,7 @@
 <ul class="sellos" aria-label="Lo que garantiza cada pijama">
   <li><strong>Tela TEKS</strong><span>algodón colombiano hipoalergénico</span></li>
   <li><strong>Sin plomo</strong><span>tintas certificadas</span></li>
-  <li><strong>Garantía</strong><span>de por vida en costuras</span></li>
+  <li><a href="/envios-cambios-y-garantia#garantia"><strong>Garantía</strong><span>de por vida en costuras · ver condiciones</span></a></li>
   <li><strong>Contraentrega</strong><span>envíos a toda Colombia</span></li>
 </ul>
 
@@ -13,6 +13,8 @@
   .sellos li { padding: 1rem 1.1rem; display: flex; flex-direction: column; border-bottom: 1px solid var(--borde); }
   .sellos li:nth-child(odd) { border-right: 1px solid var(--borde); }
   .sellos li:nth-last-child(-n+2) { border-bottom: 0; }
+  .sellos a { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .sellos a:hover span { text-decoration: underline; }
   .sellos strong { font-family: var(--f-titulo); font-size: 1.2rem; color: var(--magenta); line-height: 1.2; }
   .sellos span { font-size: .9rem; color: var(--texto-suave); }
   @media (min-width: 800px) {

@@ -8,7 +8,7 @@ import Resenas from '../components/Resenas.astro';
 import { RESENAS_INICIO, RESUMEN_GOOGLE } from '../lib/resenas';
 import TarjetaProducto from '../components/TarjetaProducto.astro';
 import { LINEAS, PRODUCTOS, foto, pesos } from '../lib/catalogo';
-import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
+import { NEGOCIO, ENVIOS, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
 
 const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
 ---
@@ -29,10 +29,15 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
         <p class="hero-google"><span aria-hidden="true">★★★★★</span> <strong>{RESUMEN_GOOGLE.promedio.toLocaleString('es-CO', { minimumFractionDigits: 1 })}</strong> en Google · {RESUMEN_GOOGLE.total} opiniones de nuestras tiendas en Santafé y Bulevar Niza</p>
       </div>
       <div class="hero-foto">
-        <Picture src={foto('familia-tortugas')} formats={['avif']} fallbackFormat="webp" widths={[640, 960, 1400]} sizes="(min-width: 960px) 580px, 100vw" alt="Familia de seis con pijamas iguales verde menta estampadas con tortugas" loading="eager" fetchpriority="high" />
+        <Picture src={foto('pijamas-familiares-tortugas-bogota')} formats={['avif']} fallbackFormat="webp" widths={[640, 960, 1400]} sizes="(min-width: 960px) 580px, 100vw" alt="Familia de seis con pijamas iguales verde menta estampadas con tortugas" loading="eager" fetchpriority="high" />
       </div>
     </div>
     <div class="contenedor hero-sellos"><Sellos /></div>
+    <div class="contenedor envios-inicio">
+      <h2 class="envios-titulo">Envíos</h2>
+      <ul>{ENVIOS.corto.map((e) => <li><strong>{e.t}:</strong> {e.d}</li>)}</ul>
+      <a href="/envios-cambios-y-garantia">Ver envíos, cambios y garantía →</a>
+    </div>
   </section>
 
   <section class="seccion" id="lineas">
@@ -42,7 +47,7 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
       <div class="lineas">
         {LINEAS.map((l, i) => (
           <a class="linea" href={`/${l.slug}`}>
-            {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[320, 520]} sizes="(min-width: 960px) 270px, 46vw" alt="" loading={i < 4 ? 'eager' : 'lazy'} /> : <SinFoto texto="" />}
+            {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[320, 520]} sizes="(min-width: 960px) 270px, 46vw" alt={`Pijamas ${l.nombre.toLowerCase()} de Tejiendo Sueños`} loading={i < 4 ? 'eager' : 'lazy'} /> : <SinFoto texto="" />}
             <span>{l.nombre}</span>
           </a>
         ))}
@@ -89,12 +94,12 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
   <section class="seccion navidad">
     <div class="contenedor nav-grid">
       <div class="nav-foto">
-        <Picture src={foto('familia-navidad-renos')} formats={['avif']} fallbackFormat="webp" widths={[640, 1000, 1400]} sizes="(min-width: 960px) 600px, 100vw" alt="Familia sentada con pijamas navideñas beige y pantalón de cuadros rojos" />
+        <Picture src={foto('pijama-navidena-familiar-reno-bufanda-vitrina')} formats={['avif']} fallbackFormat="webp" widths={[640, 900]} sizes="(min-width: 960px) 600px, 100vw" alt="Pijamas navideñas familiares con reno de bufanda para adulto y niño en la vitrina de Tejiendo Sueños" />
       </div>
       <div>
         <span class="antetitulo">Temporada de Navidad</span>
         <h2>Este diciembre, todos iguales</h2>
-        <p>Pijamas navideñas para las velitas, la novena y la foto familiar. Tallas de la 2 a la XL, al mismo precio por persona.</p>
+        <p>Pijamas navideñas para las velitas, la novena y la foto familiar. Cuatro diseños nuevos este año, en todas las tallas: adultos $130.000 y niños $95.000.</p>
         <a class="boton boton-primario" href="/pijamas-navidenas">Ver pijamas navideñas</a>
       </div>
     </div>
@@ -126,7 +131,7 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
         <a class="boton boton-claro" href="/nosotros">Conoce nuestra historia</a>
       </div>
       <div class="historia-foto">
-        <Picture src={foto('familia-gorilas')} formats={['avif']} fallbackFormat="webp" widths={[480, 800]} sizes="(min-width: 960px) 420px, 90vw" alt="Familia con pijamas iguales color arena estampadas con gorilas" />
+        <Picture src={foto('pijama-familiar-gorilas')} formats={['avif']} fallbackFormat="webp" widths={[480, 800]} sizes="(min-width: 960px) 420px, 90vw" alt="Familia con pijamas iguales color arena estampadas con gorilas" />
       </div>
     </div>
   </section>
@@ -148,6 +153,11 @@ const destacados = PRODUCTOS.filter((p) => p.destacado).slice(0, 8);
   .hero-ctas { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.5rem; }
   .hero-foto :global(img) { border-radius: 28px 28px 120px 28px; box-shadow: var(--sombra); width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
   .hero-sellos { margin-top: clamp(28px, 5vw, 48px); }
+  .envios-inicio { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.4rem; font-size: .98rem; color: var(--texto-suave); }
+  .envios-titulo { font-size: 1.05rem; margin: 0; color: var(--ciruela); }
+  .envios-inicio ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; }
+  .envios-inicio strong { color: var(--ciruela); }
+  .envios-inicio a { font-weight: 700; }
   @media (min-width: 960px) { .hero-grid { grid-template-columns: 1fr 1.1fr; } }
 
   .lineas { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 2rem; }

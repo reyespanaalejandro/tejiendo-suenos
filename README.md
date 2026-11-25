@@ -30,5 +30,8 @@ Configuración: framework **Astro**, comando `npm run build`, carpeta de salida 
 ## Pendientes antes de lanzar
 - [ ] Fotos reales de la fábrica y del equipo (sección "Quiénes somos").
 - [ ] Confirmar pedido mínimo por mayor y tiempos de producción.
+- [ ] Fotos de las navideñas Capibaras, Osos Polares y Gatitos (con las modelos de las sesiones).
+- [ ] Medidas en centímetros para la guía de tallas (Rocío la está haciendo).
+- [ ] Foto de las medias térmicas y de las futboleras (sin escudos en primer plano).
 - [ ] Instalar GA4 y la etiqueta de Google Ads (el evento `contacto_whatsapp_mayor` ya se dispara en cada clic a WhatsApp).
 - [x] Dominio: pijamastejiendosuenos.com (Cloudflare).

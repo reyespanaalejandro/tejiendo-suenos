@@ -1,14 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
-import { ENVIOS, NEGOCIO } from '../lib/negocio';
+import { ENVIOS, NEGOCIO, PAGOS, CUIDADO } from '../lib/negocio';
 
 const preguntas = [
-  { q: '¿El precio es por persona o por el set familiar?', a: 'Es por persona. Por ejemplo, una pijama familiar de $130.000 para mamá, papá e hijo cuesta $390.000. Las pantuflas tienen precio por par.' },
+  { q: '¿El precio es por persona o por el set familiar?', a: 'Es por persona. Las tallas de adulto (S a XL) valen $130.000 y las de niño (2 a 16), $95.000. Por ejemplo, la pijama familiar para mamá, papá e hijo cuesta $355.000. Las pantuflas tienen precio por par.' },
   { q: '¿De qué material son las pijamas?', a: 'De algodón colombiano con sello TEKS, hipoalergénico. No se estira ni se encoge, y la composición de la etiqueta es la real.' },
-  { q: '¿Cuánto duran?', a: 'Años. Tenemos pijamas de 8 años que siguen en buen estado, y a los niños les quedan pequeñas antes de que se dañen. Por eso las costuras tienen garantía de por vida.' },
+  { q: '¿Cuánto duran?', a: 'Años. Tenemos pijamas de 8 años que siguen en buen estado, y a los niños les quedan pequeñas antes de que se dañen. Por eso las costuras tienen garantía de por vida y el estampado, de dos años (no cubre daños por mal lavado).' },
   { q: '¿Tienen bolsillos?', a: 'Sí, nuestras pijamas tienen bolsillos.' },
   { q: '¿Qué diseños tienen?', a: 'Diseños propios que renovamos cada tres meses: familiares, navideños, ejecutivas, náuticas y más. También tenemos pijamas con personajes, de superhéroes y de equipos de fútbol.' },
   { q: '¿Hacen envíos?', a: `${ENVIOS.nacional} ${ENVIOS.bogota}` },
+  { q: '¿Cómo pago?', a: `${PAGOS.tienda} ${PAGOS.distancia}` },
+  { q: '¿Cómo lavo mi pijama para que dure más?', a: CUIDADO.join(' ') },
   { q: '¿Puedo cambiar la talla?', a: 'Sí, puedes cambiar la pijama por otra talla. Si llega con un defecto, también te la cambiamos. No hacemos devolución de dinero.' },
   { q: '¿Puedo ir a medírmela?', a: `Claro. Tenemos dos tiendas en Bogotá: ${NEGOCIO.tiendas.map((t) => `${t.centroComercial}, ${t.local}`).join(', y ')}. Ve a la que te quede más cerca.` },
   { q: '¿Hacen tallas grandes?', a: 'Sí. Si no encuentras tu talla, te hacemos la pijama a la medida.' },

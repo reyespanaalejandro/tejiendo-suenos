@@ -14,21 +14,15 @@ const msg = 'Hola, Tejiendo Sueños. Necesito ayuda para escoger la talla. Mido 
   </section>
   <section class="seccion">
     <div class="contenedor guia">
-      <div class="tabla-wrap">
-        <table>
-          <caption>Adultos (dama y caballero)</caption>
-          <thead><tr><th scope="col">Talla</th><th scope="col">Pecho (cm)</th><th scope="col">Cadera (cm)</th><th scope="col">Largo pantalón (cm)</th></tr></thead>
-          <tbody>{TALLAS.adulto.map((t) => <tr><th scope="row">{t}</th><td>—</td><td>—</td><td>—</td></tr>)}</tbody>
-        </table>
+      <div class="grupo-tallas">
+        <h2>Adultos (dama y caballero)</h2>
+        <ul class="chips">{TALLAS.adulto.map((t) => <li>{t}</li>)}</ul>
       </div>
-      <div class="tabla-wrap">
-        <table>
-          <caption>Niños y niñas</caption>
-          <thead><tr><th scope="col">Talla</th><th scope="col">Edad aprox.</th><th scope="col">Estatura (cm)</th></tr></thead>
-          <tbody>{TALLAS.ninos.map((t) => <tr><th scope="row">{t}</th><td>—</td><td>—</td></tr>)}</tbody>
-        </table>
+      <div class="grupo-tallas">
+        <h2>Niños y niñas</h2>
+        <ul class="chips">{TALLAS.ninos.map((t) => <li>{t}</li>)}</ul>
       </div>
-      <p><span class="pendiente">Las medidas en centímetros están por confirmar con la fábrica.</span></p>
+      <p>Estamos preparando la tabla con las medidas en centímetros de cada talla. Mientras tanto, cuéntanos por WhatsApp tu estatura y la talla que usas normalmente y te ayudamos a escoger. También puedes medírtela en cualquiera de nuestras tiendas.</p>
       <p>Pantuflas: tallas de la 35 a la 45. Medias térmicas: talla única.</p>
       <p>¿Necesitas una talla más grande? <a href="/pijamas-personalizadas">Te la hacemos a la medida</a>.</p>
       <a class="boton boton-wa" href={whatsappUrl(msg)} data-wa="guia-tallas" target="_blank" rel="noopener">Pedir ayuda con mi talla</a>
@@ -40,7 +34,9 @@ const msg = 'Hola, Tejiendo Sueños. Necesito ayuda para escoger la talla. Mido 
   .guia { display: grid; gap: 1.6rem; max-width: 820px; }
   .guia p { margin: 0; }
   .guia .boton { justify-self: start; }
-  .tabla-wrap { overflow-x: auto; }
+  .grupo-tallas h2 { font-size: 1.3rem; margin-bottom: .6rem; }
+  .chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+  .chips li { min-width: 3rem; text-align: center; padding: .45rem .8rem; border-radius: 999px; background: #fff; border: 1px solid var(--borde); color: var(--magenta); font-family: var(--f-titulo); font-weight: 700; }
   table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); border-radius: 16px; overflow: hidden; font-variant-numeric: tabular-nums; }
   caption { text-align: left; font-family: var(--f-titulo); font-weight: 600; font-size: 1.3rem; color: var(--ciruela); padding-bottom: .6rem; }
   th, td { padding: .7rem 1rem; text-align: center; border-bottom: 1px solid var(--borde); }

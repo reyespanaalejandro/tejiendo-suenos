@@ -23,7 +23,7 @@ const esFutbol = l.slug === 'pijamas-futboleras';
         <p>{l.intro}</p>
       </div>
       <div class="cabeza-foto">
-        {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 360px, 90vw" alt="" loading="eager" /> : <SinFoto texto="Fotos por confirmar" />}
+        {l.portada ? <Picture src={foto(l.portada)} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 900px) 360px, 90vw" alt={`${l.titulo} – Tejiendo Sueños`} loading="eager" /> : <SinFoto texto="Fotos por confirmar" />}
       </div>
     </div>
   </section>

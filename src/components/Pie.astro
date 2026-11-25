@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import { NEGOCIO } from '../lib/negocio';
+import { NEGOCIO, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
 import { LINEAS } from '../lib/catalogo';
 ---
 <footer class="pie">
@@ -33,7 +33,7 @@ import { LINEAS } from '../lib/catalogo';
       {NEGOCIO.tiendas.map((t) => (
         <p class="pie-tienda"><strong>{t.centroComercial}</strong><br />{t.local}<br />{t.horario.map((h) => `${h.dias}: ${h.horas}`).join(' · ')}<br /><a href={t.mapsUrl} target="_blank" rel="noopener">Cómo llegar</a></p>
       ))}
-      <p>WhatsApp: <strong>{NEGOCIO.whatsappVisible}</strong></p>
+      <p><a href={whatsappUrl(MENSAJE_GENERAL)} data-wa="pie" target="_blank" rel="noopener">Escríbenos por WhatsApp: <strong>{NEGOCIO.whatsappVisible}</strong></a></p>
       <p><a href={NEGOCIO.instagram} target="_blank" rel="noopener">Instagram</a></p>
     </div>
   </div>

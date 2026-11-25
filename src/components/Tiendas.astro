@@ -1,11 +1,14 @@
 ---
+import { Picture } from 'astro:assets';
 import { NEGOCIO } from '../lib/negocio';
+import { foto } from '../lib/catalogo';
 interface Props { compacto?: boolean }
 const { compacto = false } = Astro.props;
 ---
 <div class={`tiendas ${compacto ? 'compacto' : ''}`}>
   {NEGOCIO.tiendas.map((t) => (
     <article class="tienda">
+      <Picture class="tienda-foto" src={foto(t.foto)} formats={['avif']} fallbackFormat="webp" widths={[400, 640, 900]} sizes="(min-width: 720px) 45vw, 92vw" alt={t.fotoAlt} loading="lazy" />
       <h3>Tienda {t.nombre}</h3>
       <p class="lugar"><strong>{t.centroComercial}</strong><br />{t.local} · {t.direccion}<br />{t.zona}</p>
       <ul class="horario">{t.horario.map((h) => <li><span>{h.dias}</span><span>{h.horas}</span></li>)}</ul>
@@ -17,6 +20,7 @@ const { compacto = false } = Astro.props;
 <style>
   .tiendas { display: grid; gap: 1rem; }
   .tienda { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1.5rem; display: flex; flex-direction: column; gap: .7rem; align-items: flex-start; }
+  .tienda :global(.tienda-foto) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; }
   .tienda h3 { margin: 0; color: var(--magenta); font-size: 1.35rem; }
   .lugar { margin: 0; color: var(--texto-suave); }
   .lugar strong { color: var(--ciruela); }

@@ -41,8 +41,9 @@ const equipo = [
         </ul>
       </div>
       <aside class="hist-foto">
-        <Picture src={foto('familia-nubes-petroleo')} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 960px) 380px, 90vw" alt="Familia con pijamas iguales azul petróleo con nubes" />
-        <p class="foto-nota"><span class="pendiente">Aquí irán fotos de Rocío y de la fábrica</span></p>
+        <Picture src={foto('pijama-familiar-nubes-azul-petroleo')} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 960px) 380px, 90vw" alt="Familia con pijamas iguales azul petróleo con nubes" />
+        <Picture src={foto('tienda-pijamas-centro-comercial-santafe-interior')} formats={['avif']} fallbackFormat="webp" widths={[400, 700]} sizes="(min-width: 960px) 380px, 90vw" alt="Interior de la tienda de pijamas Tejiendo Sueños en el Centro Comercial Santafé" loading="lazy" class="foto-tienda" />
+        <p class="foto-nota">Nuestra tienda del Centro Comercial Santafé.</p>
       </aside>
     </div>
   </section>
@@ -62,7 +63,8 @@ const equipo = [
   .historia { display: grid; gap: 2.4rem; }
   .historia .prosa h2:first-child { margin-top: 0; }
   .hist-foto :global(img) { border-radius: 28px 100px 28px 28px; width: 100%; }
-  .foto-nota { margin-top: .8rem; font-size: .9rem; }
+  .foto-nota { margin-top: .8rem; font-size: .9rem; color: var(--texto-suave); }
+  .hist-foto :global(.foto-tienda) { margin-top: 1rem; border-radius: 28px 28px 100px 28px; aspect-ratio: 4 / 5; object-fit: cover; }
   @media (min-width: 960px) { .historia { grid-template-columns: 1.4fr 1fr; gap: 4rem; } .hist-foto { position: sticky; top: 96px; align-self: start; } }
   .equipo-sec { background: #fff; }
   .equipo { display: grid; gap: 1rem; margin-top: 1.4rem; }

@@ -5,16 +5,18 @@ import SinFoto from './SinFoto.astro';
 
 interface Props { p: Producto; prioridad?: boolean }
 const { p, prioridad = false } = Astro.props;
-const etiqueta = p.tallaje === 'familia' ? 'Para toda la familia' : p.tallaje === 'ninos' ? 'Tallas 2 a 16' : p.tallaje === 'calzado' ? 'Tallas 35 a 45' : 'Tallas S a XL';
+const etiqueta = p.tallaje === 'familia' ? 'Tallas 2 a 16 y S a XL' : p.tallaje === 'ninos' ? 'Tallas 2 a 16' : p.tallaje === 'calzado' ? 'Tallas 35 a 45' : p.tallaje === 'unica' ? 'Talla única' : 'Tallas S a XL';
+const unidad = p.tallaje === 'calzado' || p.tallaje === 'unica' ? 'el par' : 'por persona';
 ---
 <a class="tarjeta" href={`/producto/${p.slug}`}>
   <div class="tarjeta-foto">
-    {p.fotos.length ? <Picture src={foto(p.fotos[0])} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 640]} sizes="(min-width: 1060px) 260px, (min-width: 640px) 30vw, 46vw" alt={p.alt} loading={prioridad ? 'eager' : 'lazy'} /> : <SinFoto texto="Fotos por WhatsApp" />}
+    {p.fotos.length ? <Picture src={foto(p.fotos[0])} formats={['avif']} fallbackFormat="webp" widths={[320, 480, 640]} sizes="(min-width: 1060px) 260px, (min-width: 640px) 30vw, 46vw" alt={p.alt} loading={prioridad ? 'eager' : 'lazy'} /> : <SinFoto texto="Pídenos las fotos por WhatsApp" />}
     <span class="tarjeta-etiqueta">{etiqueta}</span>
   </div>
   <h3>{p.nombre}</h3>
   <p class="tarjeta-precio">
-    {p.precio ? <><strong>{pesos(p.precio)}</strong> {p.tallaje === 'calzado' ? 'el par' : 'por persona'}</> : <span class="consultar">Precio por confirmar</span>}
+    {p.precio && p.precioNino ? <>Adulto <strong>{pesos(p.precio)}</strong> · Niño <strong>{pesos(p.precioNino)}</strong></>
+      : p.precio ? <><strong>{pesos(p.precio)}</strong> {unidad}</> : <span class="consultar">Precio por confirmar</span>}
   </p>
 </a>
 

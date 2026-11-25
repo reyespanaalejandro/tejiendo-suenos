@@ -1,8 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
-import { ENVIOS } from '../lib/negocio';
+import { ENVIOS, PAGOS, CUIDADO, NEGOCIO, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
 ---
-<Base title="Envíos, cambios y garantía | Tejiendo Sueños" description="Envíos a toda Colombia con pago contraentrega, cambios de talla y garantía de por vida en costuras.">
+<Base title="Envíos, cambios y garantía | Tejiendo Sueños" description="Envíos en Bogotá el mismo día o al siguiente y a toda Colombia con pago contraentrega. Cambios de talla, garantía de por vida en costuras y cómo lavar tu pijama.">
   <section class="pagina-cabeza">
     <div class="contenedor">
       <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Envíos, cambios y garantía</nav>
@@ -15,14 +15,14 @@ import { ENVIOS } from '../lib/negocio';
       <h2>Envíos</h2>
       <ul>
         <li>{ENVIOS.nacional}</li>
-        <li>{ENVIOS.bogota} <span class="pendiente">Costo del domicilio en Bogotá por confirmar</span></li>
+        <li>{ENVIOS.bogota}</li>
         <li>Las pijamas personalizadas tienen su propio tiempo de entrega, que te confirmamos al hacer el pedido.</li>
       </ul>
 
       <h2>Formas de pago</h2>
       <ul>
-        <li>Transferencia, Bre-B, Nequi o Daviplata.</li>
-        <li>Tarjeta, con link de pago.</li>
+        <li>{PAGOS.tienda}</li>
+        <li>{PAGOS.distancia}</li>
         <li>Contraentrega con Interrapidísimo: pagas en efectivo o con datáfono cuando recibes.</li>
       </ul>
 
@@ -32,20 +32,20 @@ import { ENVIOS } from '../lib/negocio';
         <li>Si la prenda llega con un defecto, te la cambiamos.</li>
         <li>No hacemos devolución de dinero.</li>
         <li>No recibimos cambios de prendas que se vean o huelan usadas.</li>
-        <li><span class="pendiente">Plazo para hacer el cambio por confirmar</span></li>
+        <li>Para hacer un cambio, escríbenos por <a href={whatsappUrl(MENSAJE_GENERAL)} data-wa="cambios" target="_blank" rel="noopener">WhatsApp ({NEGOCIO.whatsappVisible})</a> o ven a una de nuestras tiendas con la pijama.</li>
       </ul>
 
-      <h2>Garantía</h2>
+      <h2 id="garantia">Garantía</h2>
       <ul>
         <li><strong>Costuras: garantía de por vida.</strong> Si una costura se descose, así haya pasado tiempo, te la arreglamos o te la cambiamos.</li>
         <li><strong>Estampado: garantía de dos años.</strong></li>
-        <li>La garantía no cubre daños por mal lavado.</li>
+        <li>La garantía no cubre daños por mal lavado (por ejemplo, prendas desteñidas por cloro o lavadas con agua muy caliente). Por eso te dejamos abajo cómo cuidarla.</li>
+        <li>Para usarla, trae la pijama a cualquiera de nuestras tiendas o escríbenos por WhatsApp con una foto.</li>
       </ul>
 
       <h2>Cuidado de tu pijama</h2>
       <ul>
-        <li>Lávala aparte de las toallas para que no le salgan motas.</li>
-        <li><span class="pendiente">Instrucciones completas de lavado por confirmar</span></li>
+        {CUIDADO.map((c) => <li>{c}</li>)}
       </ul>
     </div>
   </section>

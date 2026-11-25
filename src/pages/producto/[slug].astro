@@ -6,7 +6,7 @@ import SinFoto from '../../components/SinFoto.astro';
 import Resenas from '../../components/Resenas.astro';
 import { resenasPara, type Tema } from '../../lib/resenas';
 import { PRODUCTOS, TALLAS, LINEAS, foto, pesos, type Producto } from '../../lib/catalogo';
-import { NEGOCIO, ENVIOS } from '../../lib/negocio';
+import { NEGOCIO, ENVIOS, CUIDADO } from '../../lib/negocio';
 
 export function getStaticPaths() {
   return PRODUCTOS.map((p) => ({ params: { slug: p.slug }, props: { p } }));
@@ -24,20 +24,21 @@ const grupos: { nombre: string; tallas: string[] }[] =
   : p.tallaje === 'adulto-caballero' ? [{ nombre: 'Caballero', tallas: TALLAS.adulto }]
   : p.tallaje === 'ninos' ? [{ nombre: 'Niño o niña', tallas: TALLAS.ninos }]
   : p.tallaje === 'calzado' ? [{ nombre: 'Talla', tallas: TALLAS.calzado }]
+  : p.tallaje === 'unica' ? [{ nombre: 'Talla', tallas: ['Única'] }]
   : [{ nombre: 'Adulto', tallas: TALLAS.adulto }];
 
 const relacionados = PRODUCTOS.filter((x) => x.slug !== p.slug && x.lineas.some((l) => p.lineas.includes(l))).slice(0, 4);
-const unidad = p.tallaje === 'calzado' ? 'el par' : 'por persona';
+const unidad = p.tallaje === 'calzado' || p.tallaje === 'unica' ? 'el par' : 'por persona';
 const temas: Tema[] = p.lineas.includes('pijamas-futboleras') ? ['futbol', 'calidad']
   : p.tallaje === 'familia' ? ['familia', 'calidad']
   : ['calidad', 'comodidad', 'diseno'];
 const resenas = resenasPara(temas, p.slug);
 ---
-<Base title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + unidad + '.' : ''} Algodón certificado TEKS, hecho en Bogotá.`}>
+<Base title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + (p.precioNino ? 'adulto y ' + pesos(p.precioNino) + ' niño' : unidad) + '.' : ''}${p.propia === false ? '' : ' Algodón colombiano certificado TEKS, hecho en Bogotá.'}`}>
   <section class="seccion ficha">
     <div class="contenedor ficha-grid">
       <div class="galeria">
-        {p.fotos.length === 0 && <SinFoto texto="Pídenos las fotos de tu equipo por WhatsApp" class="galeria-vacia" />}
+        {p.fotos.length === 0 && <SinFoto texto={p.lineas.includes('pijamas-futboleras') ? 'Pídenos las fotos de tu equipo por WhatsApp' : 'Pídenos las fotos por WhatsApp'} class="galeria-vacia" />}
         {p.fotos.map((f, i) => (
           <Picture src={foto(f)} formats={['avif']} fallbackFormat="webp" widths={[480, 720, 1000]} sizes="(min-width: 960px) 560px, 100vw" alt={i === 0 ? p.alt : `${p.nombre}, otra foto`} loading={i === 0 ? 'eager' : 'lazy'} />
         ))}
@@ -46,20 +47,21 @@ const resenas = resenasPara(temas, p.slug);
       <div class="info">
         <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / <a href={`/${linea.slug}`}>{linea.nombre}</a> / {p.nombre}</nav>
         <h1>{p.nombre}</h1>
-        <p class="precio">{p.precio ? <><strong>{pesos(p.precio)}</strong> {unidad}</> : <span class="pendiente">Precio por confirmar</span>}</p>
+        <p class="precio">{p.precio && p.precioNino ? <><strong>{pesos(p.precio)}</strong> adulto (S a XL) · <strong>{pesos(p.precioNino)}</strong> niño (2 a 16), por persona</>
+          : p.precio ? <><strong>{pesos(p.precio)}</strong> {unidad}</> : <span class="pendiente">Precio por confirmar</span>}</p>
         <p class="desc">{p.descripcion}</p>
         <ul class="puntos">
           {p.propia === false
             ? p.puntos?.map((x) => <li>{x}</li>)
             : <>
-                {p.tallaje !== 'calzado' && <li>Algodón colombiano certificado TEKS, hipoalergénico</li>}
+                {p.tallaje !== 'calzado' && <li><strong>Tela:</strong> algodón colombiano certificado TEKS, hipoalergénico. No se estira ni se encoge</li>}
                 {p.tallaje !== 'calzado' && <li>Estampado en serigrafía con tintas sin plomo</li>}
                 {p.tallaje !== 'calzado' && <li>Con bolsillos</li>}
                 <li>Hecho en Bogotá por Tejiendo Sueños</li>
               </>}
         </ul>
 
-        <form class="pedido" id="pedido" data-producto={p.nombre} data-precio={p.precio ?? ''} data-unidad={unidad} data-wa={NEGOCIO.whatsapp}>
+        <form class="pedido" id="pedido" data-producto={p.nombre} data-precio={p.precio ?? ''} data-precio-nino={p.precioNino ?? p.precio ?? ''} data-unidad={unidad} data-wa={NEGOCIO.whatsapp}>
           <h2>{p.tallaje === 'familia' ? 'Arma el pedido de tu familia' : 'Escoge la talla'}</h2>
           {p.tallaje === 'familia' && <p class="ayuda">Toca la talla de cada persona. Puedes agregar varias del mismo grupo.</p>}
           {grupos.map((g) => (
@@ -78,7 +80,7 @@ const resenas = resenasPara(temas, p.slug);
             <div class="total" id="total-wrap" hidden><span id="cuenta"></span><strong id="total"></strong></div>
           </div>
           <a class="boton boton-wa enviar" id="enviar" aria-disabled="true" data-wa="producto" target="_blank" rel="noopener" href={`https://wa.me/${NEGOCIO.whatsapp}`}>Pedir por WhatsApp</a>
-          <p class="nota">Te confirmamos disponibilidad y envío por WhatsApp. Puedes pagar por transferencia, Nequi, Daviplata, link de pago o contraentrega.</p>
+          <p class="nota">Te confirmamos disponibilidad y envío por WhatsApp. Puedes pagar por transferencia, Bre-B, Nequi, Daviplata, tarjeta con link de pago o contraentrega.</p>
           <p class="nota">¿Prefieres medírtela? Encuéntrala en nuestras tiendas de {NEGOCIO.tiendas.map((t) => t.nombre).join(' y ')}. <a href="/contacto">Ver direcciones</a></p>
         </form>
 
@@ -93,10 +95,12 @@ const resenas = resenasPara(temas, p.slug);
             <p>Puedes cambiar la talla o, si la prenda tiene un defecto, te la cambiamos. No hacemos devolución de dinero.{p.propia !== false && ' Las costuras tienen garantía de por vida y el estampado, de dos años, siempre que la prenda se haya lavado bien.'}</p>
             <p><a href="/envios-cambios-y-garantia">Ver la política completa</a></p>
           </details>
-          <details>
-            <summary>Cuidado</summary>
-            <p>Lávala aparte de las toallas para que no le salgan motas. <span class="pendiente">Instrucciones completas de lavado por confirmar</span></p>
-          </details>
+          {p.propia !== false && p.tallaje !== 'calzado' && (
+            <details>
+              <summary>Cuidado y lavado</summary>
+              <ul class="cuidado">{CUIDADO.map((c) => <li>{c}</li>)}</ul>
+            </details>
+          )}
         </div>
       </div>
     </div>
@@ -124,14 +128,19 @@ const resenas = resenasPara(temas, p.slug);
     const cuentaEl = document.getElementById('cuenta')!;
     const enviar = document.getElementById('enviar') as HTMLAnchorElement;
     const precio = Number(form.dataset.precio) || 0;
+    const precioNino = Number(form.dataset.precioNino) || precio;
+    const precioDe = (grupo: string) => (grupo === 'Niño o niña' ? precioNino : precio);
+    const mixto = precioNino !== precio;
     const fmt = (n: number) => '$' + n.toLocaleString('es-CO');
     const pedido = new Map<string, { grupo: string; talla: string; n: number }>();
 
     const pintar = () => {
       itemsEl.innerHTML = '';
       let total = 0;
+      let valor = 0;
       pedido.forEach((it, k) => {
         total += it.n;
+        valor += it.n * precioDe(it.grupo);
         const li = document.createElement('li');
         li.innerHTML = `<span>${it.grupo} · talla <b>${it.talla}</b></span>
           <span class="cant"><button type="button" aria-label="Quitar una" data-k="${k}" data-d="-1">−</button><output>${it.n}</output><button type="button" aria-label="Agregar una" data-k="${k}" data-d="1">+</button></span>`;
@@ -140,11 +149,11 @@ const resenas = resenasPara(temas, p.slug);
       vacio.hidden = total > 0;
       totalWrap.hidden = total === 0;
       cuentaEl.textContent = `${total} ${total === 1 ? 'prenda' : 'prendas'}`;
-      totalEl.textContent = precio ? fmt(total * precio) : 'Precio por confirmar';
+      totalEl.textContent = precio ? fmt(valor) : 'Precio por confirmar';
       enviar.setAttribute('aria-disabled', String(total === 0));
       const lineas = [`Hola, Tejiendo Sueños. Quiero pedir la pijama *${form.dataset.producto}*:`];
       pedido.forEach((it) => lineas.push(`• ${it.n} × ${it.grupo}, talla ${it.talla}`));
-      if (precio) lineas.push(`Total: ${fmt(total * precio)} (${fmt(precio)} ${form.dataset.unidad})`);
+      if (precio) lineas.push(mixto ? `Total: ${fmt(valor)} (adulto ${fmt(precio)}, niño ${fmt(precioNino)})` : `Total: ${fmt(valor)} (${fmt(precio)} ${form.dataset.unidad})`);
       lineas.push('¿Me confirman disponibilidad y el envío?');
       enviar.href = `https://wa.me/${form.dataset.wa}?text=${encodeURIComponent(lineas.join('\n'))}`;
     };
@@ -178,6 +187,7 @@ const resenas = resenasPara(temas, p.slug);
   .precio { font-size: 1.1rem; color: var(--texto-suave); margin-bottom: 1rem; }
   .precio strong { font-family: var(--f-titulo); font-size: 2rem; color: var(--magenta); margin-right: .2rem; }
   .desc { font-size: 1.08rem; }
+  .cuidado { padding-left: 1.1rem; margin: .6rem 0 0; color: var(--texto-suave); display: grid; gap: .35rem; }
   .puntos { padding-left: 1.1rem; color: var(--texto-suave); margin: 0 0 1.6rem; }
   .puntos li { margin-bottom: .3rem; }
 
