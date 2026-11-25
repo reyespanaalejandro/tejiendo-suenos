@@ -7,15 +7,20 @@ import '../styles/global.css';
 import Cabecera from '../components/Cabecera.astro';
 import Pie from '../components/Pie.astro';
 import { whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
+import { grafoNegocio } from '../lib/seo';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   mensajeWa?: string;
+  // Datos estructurados propios de la página (producto, migas, preguntas…).
+  // El negocio y las dos tiendas se agregan siempre.
+  ld?: Record<string, unknown>[];
 }
-const { title, description, image, mensajeWa = MENSAJE_GENERAL } = Astro.props;
+const { title, description, image, mensajeWa = MENSAJE_GENERAL, ld = [] } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const grafo = { '@context': 'https://schema.org', '@graph': [...(await grafoNegocio()), ...ld] };
 ---
 <!doctype html>
 <html lang="es-CO">
@@ -32,6 +37,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     {image && <meta property="og:image" content={new URL(image, Astro.site)} />}
     <meta name="theme-color" content="#a3197c" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <link rel="alternate" type="text/markdown" title="Resumen para asistentes de IA" href="/llms.txt" />
+    <script type="application/ld+json" set:html={JSON.stringify(grafo)} />
     <slot name="head" />
     <!-- Etiqueta de Google (Google Ads AW-18592378672) -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-18592378672"></script>
@@ -72,7 +80,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           w.gtag?.('event', 'como_llegar', { pagina: location.pathname });
         }
       });
-    </script>
     </script>
   </body>
 </html>

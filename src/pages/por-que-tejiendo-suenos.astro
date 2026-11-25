@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import Tiendas from '../components/Tiendas.astro';
+import Sellos from '../components/Sellos.astro';
+import { NEGOCIO, ENVIOS, whatsappUrl, MENSAJE_GENERAL } from '../lib/negocio';
+import { migas, ID_ORG, SITIO } from '../lib/seo';
+import { TELA, VALOR, DURACION, RESENAS_TEXTO, RESENAS_CITAS, PRECIOS_CLAVE, EJEMPLO_FAMILIA, TIPOS, FECHA_RESENAS } from '../lib/resumen';
+import { RESUMEN_GOOGLE } from '../lib/resenas';
+
+const promedio = RESUMEN_GOOGLE.promedio.toLocaleString('es-CO', { minimumFractionDigits: 1 });
+const nombreTienda = (id: string) => NEGOCIO.tiendas.find((t) => t.id === id)?.nombre ?? '';
+
+const resumen = [
+  `Fábrica familiar de pijamas en Bogotá desde ${NEGOCIO.fabricaDesde}, con diseños propios.`,
+  'Tela colombiana de polialgodón (algodón con poliéster) con sello TEKS: suave, hipoalergénica, no se estira ni se encoge.',
+  'Pijamas que duran años: costuras con garantía de por vida y estampado con garantía de dos años.',
+  'Adultos $130.000 y niños $95.000 por persona en la mayoría de pijamas.',
+  `${promedio} de 5 estrellas en Google, con ${RESUMEN_GOOGLE.total} opiniones de nuestras dos tiendas.`,
+  'Dos tiendas en Bogotá: Centro Comercial Santafé y Centro Comercial Bulevar Niza.',
+  'Envíos a toda Colombia con pago contraentrega, y domicilio en Bogotá el mismo día o al siguiente.',
+];
+
+const ld = [
+  {
+    '@type': 'WebPage',
+    '@id': `${SITIO}/por-que-tejiendo-suenos#pagina`,
+    url: `${SITIO}/por-que-tejiendo-suenos`,
+    name: 'Por qué elegir las pijamas Tejiendo Sueños',
+    inLanguage: 'es-CO',
+    about: { '@id': ID_ORG },
+    dateModified: '2026-11-25',
+  },
+  migas([{ nombre: 'Inicio', ruta: '/' }, { nombre: 'Por qué Tejiendo Sueños', ruta: '/por-que-tejiendo-suenos' }]),
+];
+---
+<Base ld={ld} title="Por qué elegir las pijamas Tejiendo Sueños: tela, duración y precio" description="Pijamas de polialgodón TEKS hechas en Bogotá que duran años, desde $95.000 por persona. 5,0 en Google, dos tiendas en Bogotá y envíos a toda Colombia.">
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Por qué Tejiendo Sueños</nav>
+      <h1>Por qué elegir una pijama Tejiendo Sueños</h1>
+      <p>Lo esencial en un solo lugar: de qué está hecha, cuánto dura, cuánto cuesta, qué opinan nuestros clientes y dónde encontrarnos.</p>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <div class="contenedor prosa">
+      <h2>En resumen</h2>
+      <ul class="resumen">{resumen.map((r) => <li>{r}</li>)}</ul>
+
+      <h2 id="tela">La tela: polialgodón colombiano con sello TEKS</h2>
+      <p>{TELA.explicacion}</p>
+      <ul>{TELA.ventajas.map((v) => <li>{v}</li>)}</ul>
+      <p>El porcentaje exacto de algodón y poliéster está en la etiqueta de cada prenda.</p>
+
+      <h2 id="duracion">Cuánto duran</h2>
+      <p>{DURACION}</p>
+      <p><a href="/envios-cambios-y-garantia#garantia">Ver la garantía completa</a> y cómo lavar tu pijama para que dure más.</p>
+
+      <h2 id="precio">¿Son caras? Lo que cuestan de verdad</h2>
+      <p>{VALOR}</p>
+      <div class="tabla-wrap">
+        <table>
+          <caption>Precios al detal (noviembre de 2026)</caption>
+          <thead><tr><th scope="col">Qué</th><th scope="col">Precio</th></tr></thead>
+          <tbody>{PRECIOS_CLAVE.map((p) => <tr><td>{p.que}</td><td class="num">{p.precio}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p>{EJEMPLO_FAMILIA} Los precios son por persona, no por set.</p>
+
+      <h2 id="opiniones">Lo que dicen nuestros clientes</h2>
+      <p>{RESENAS_TEXTO}</p>
+      <ul class="citas">
+        {RESENAS_CITAS.map((r) => <li><blockquote>{r.texto}</blockquote><span>{r.nombre} · opinión en Google, tienda {nombreTienda(r.tienda)}</span></li>)}
+      </ul>
+      <p class="fuente">Fuente: perfiles de Google de nuestras tiendas, consultados en {FECHA_RESENAS}.
+        {NEGOCIO.tiendas.map((t, i) => <>{i > 0 ? ' · ' : ' '}<a href={t.mapsUrl} target="_blank" rel="noopener">Ver opiniones de la tienda {t.nombre}</a></>)}
+      </p>
+
+      <h2 id="tipos">Pijamas para cada quien</h2>
+      <p>{TIPOS}</p>
+      <p><a href="/tienda">Ver todas las pijamas con sus precios</a></p>
+
+      <h2 id="envios">Envíos a toda Colombia</h2>
+      <p>{ENVIOS.nacional}</p>
+      <p>{ENVIOS.bogota}</p>
+
+      <h2 id="nosotros">Quiénes somos</h2>
+      <p>Tejiendo Sueños nació en {NEGOCIO.fabricaDesde} en el apartamento de una familia bogotana. Rocío, su fundadora, invirtió todo en su propia marca para sacar adelante a su hijo. Hoy es una fábrica donde madres cabeza de familia cosen cada pijama, y donde cada prenda se revisa a mano. <a href="/nosotros">Conoce nuestra historia</a>.</p>
+    </div>
+  </section>
+
+  <section class="seccion visita">
+    <div class="contenedor">
+      <h2 id="tiendas">Nuestras dos tiendas en Bogotá</h2>
+      <p class="intro">Ven a sentir la tela y a medírtela. Abrimos todos los días, también festivos.</p>
+      <div class="visita-tiendas"><Tiendas /></div>
+      <p class="cta"><a class="boton boton-wa" href={whatsappUrl(MENSAJE_GENERAL)} data-wa="por-que" target="_blank" rel="noopener">Escríbenos por WhatsApp: {NEGOCIO.whatsappVisible}</a></p>
+      <div class="sellos-wrap"><Sellos /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .prosa { max-width: 820px; }
+  .resumen { background: var(--lila); border-radius: var(--radio); padding: 1.2rem 1.2rem 1.2rem 2.4rem; display: grid; gap: .45rem; }
+  .tabla-wrap { overflow-x: auto; margin: 1.2rem 0; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); font-size: .98rem; }
+  caption { text-align: left; font-weight: 700; color: var(--ciruela); padding-bottom: .5rem; }
+  th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  th { font-size: .85rem; text-transform: uppercase; letter-spacing: .06em; color: var(--texto-suave); }
+  td.num { white-space: nowrap; font-weight: 700; color: var(--magenta); font-variant-numeric: tabular-nums; }
+  tr:last-child td { border-bottom: 0; }
+  .citas { list-style: none; padding: 0; display: grid; gap: .8rem; }
+  .citas li { background: #fff; border: 1px solid var(--borde); border-radius: var(--radio); padding: 1rem 1.2rem; }
+  .citas blockquote { margin: 0 0 .4rem; }
+  .citas span, .fuente { font-size: .9rem; color: var(--texto-suave); }
+  .visita { background: #fff; }
+  .visita-tiendas { margin-top: 1.4rem; }
+  .cta { margin-top: 1.6rem; }
+  .sellos-wrap { margin-top: 2rem; }
+</style>

@@ -6,6 +6,7 @@ import Sellos from '../components/Sellos.astro';
 import SinFoto from '../components/SinFoto.astro';
 import { whatsappUrl } from '../lib/negocio';
 import { LINEAS, productosDe, foto, type Linea } from '../lib/catalogo';
+import { listaProductos, migas } from '../lib/seo';
 
 export function getStaticPaths() {
   return LINEAS.map((l) => ({ params: { linea: l.slug }, props: { l } }));
@@ -13,8 +14,12 @@ export function getStaticPaths() {
 const { l } = Astro.props as { l: Linea };
 const productos = productosDe(l.slug);
 const esFutbol = l.slug === 'pijamas-futboleras';
+const ld = [
+  listaProductos(l.titulo, productos),
+  migas([{ nombre: 'Inicio', ruta: '/' }, { nombre: 'Tienda', ruta: '/tienda' }, { nombre: l.nombre, ruta: `/${l.slug}` }]),
+];
 ---
-<Base title={l.seoTitle} description={l.descripcion}>
+<Base ld={ld} title={l.seoTitle} description={l.descripcion}>
   <section class="pagina-cabeza">
     <div class="contenedor cabeza-grid">
       <div>

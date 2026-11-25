@@ -7,6 +7,7 @@ import Resenas from '../../components/Resenas.astro';
 import { resenasPara, type Tema } from '../../lib/resenas';
 import { PRODUCTOS, TALLAS, LINEAS, foto, pesos, type Producto } from '../../lib/catalogo';
 import { NEGOCIO, ENVIOS, CUIDADO } from '../../lib/negocio';
+import { productoLd, migas } from '../../lib/seo';
 
 export function getStaticPaths() {
   return PRODUCTOS.map((p) => ({ params: { slug: p.slug }, props: { p } }));
@@ -33,8 +34,12 @@ const temas: Tema[] = p.lineas.includes('pijamas-futboleras') ? ['futbol', 'cali
   : p.tallaje === 'familia' ? ['familia', 'calidad']
   : ['calidad', 'comodidad', 'diseno'];
 const resenas = resenasPara(temas, p.slug);
+const ld = [
+  await productoLd(p),
+  migas([{ nombre: 'Inicio', ruta: '/' }, { nombre: linea.nombre, ruta: `/${linea.slug}` }, { nombre: p.nombre, ruta: `/producto/${p.slug}` }]),
+];
 ---
-<Base title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + (p.precioNino ? 'adulto y ' + pesos(p.precioNino) + ' niño' : unidad) + '.' : ''}${p.propia === false ? '' : ' Algodón colombiano certificado TEKS, hecho en Bogotá.'}`}>
+<Base ld={ld} title={`${p.nombre} | Pijamas Tejiendo Sueños`} description={`${p.descripcion} ${p.precio ? pesos(p.precio) + ' ' + (p.precioNino ? 'adulto y ' + pesos(p.precioNino) + ' niño' : unidad) + '.' : ''}${p.propia === false ? '' : ' Polialgodón colombiano certificado TEKS, hecho en Bogotá.'}`}>
   <section class="seccion ficha">
     <div class="contenedor ficha-grid">
       <div class="galeria">
@@ -54,7 +59,7 @@ const resenas = resenasPara(temas, p.slug);
           {p.propia === false
             ? p.puntos?.map((x) => <li>{x}</li>)
             : <>
-                {p.tallaje !== 'calzado' && <li><strong>Tela:</strong> algodón colombiano certificado TEKS, hipoalergénico. No se estira ni se encoge</li>}
+                {p.tallaje !== 'calzado' && <li><strong>Tela:</strong> polialgodón colombiano (algodón con poliéster) certificado TEKS, hipoalergénico. No se estira ni se encoge</li>}
                 {p.tallaje !== 'calzado' && <li>Estampado en serigrafía con tintas sin plomo</li>}
                 {p.tallaje !== 'calzado' && <li>Con bolsillos</li>}
                 <li>Hecho en Bogotá por Tejiendo Sueños</li>

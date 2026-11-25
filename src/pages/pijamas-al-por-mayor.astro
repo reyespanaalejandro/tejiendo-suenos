@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import { NEGOCIO, whatsappUrl, MENSAJE_MAYOR } from '../lib/negocio';
+import { faqLd, migas } from '../lib/seo';
 
 import hero from '../assets/fotos/pijama-familiar-mapaches.webp';
 import familiar from '../assets/fotos/pijama-familiar-hipopotamo.webp';
@@ -20,7 +21,7 @@ const wa = whatsappUrl(MENSAJE_MAYOR);
 const lineas = [
   { img: familiar, titulo: 'Familiares', texto: 'El mismo diseño para mamá, papá e hijos. Es lo que más se vende.', alt: 'Familia con pijamas iguales de hipopótamo en tonos azul petróleo' },
   { img: navidad, titulo: 'Navideñas', texto: 'Colección de temporada para vestir igual a toda la familia.', alt: 'Familia con pijamas navideñas iguales con estampado de pingüinos' },
-  { img: pareja, titulo: 'Pareja', texto: 'Juegos coordinados para ella y para él.', alt: 'Pareja con pijamas de algodón en azul oscuro y gris' },
+  { img: pareja, titulo: 'Pareja', texto: 'Juegos coordinados para ella y para él.', alt: 'Pareja con pijamas en azul oscuro y gris' },
   { img: dama, titulo: 'Dama', texto: 'Camiseros, joggers y diseños divertidos. Tallas S a XL.', alt: 'Mujer con pijama camisero azul de botones' },
   { img: short, titulo: 'Short', texto: 'Pijamas cortas para clima cálido, de dama y caballero.', alt: 'Mujer con pijama de camiseta blanca y short negro' },
   { img: caballero, titulo: 'Caballero', texto: 'Manga larga, manga corta y náuticas. Tallas S a XL.', alt: 'Hombre con pijama de manga larga gris y pantalón azul oscuro' },
@@ -29,9 +30,9 @@ const lineas = [
 ];
 
 const razones = [
-  { titulo: 'Tela certificada TEKS', texto: 'Trabajamos solo con algodón colombiano con sello TEKS. Es hipoalergénico, no se estira ni se encoge, y la composición que dice la etiqueta es la real.' },
+  { titulo: 'Tela certificada TEKS', texto: 'Trabajamos solo con polialgodón colombiano (algodón con poliéster) con sello TEKS. Es hipoalergénico, no se estira ni se encoge, y la composición que dice la etiqueta es la real.' },
   { titulo: 'Estampados que no se caen', texto: 'Serigrafía con tintas certificadas sin plomo. El diseño queda integrado a la tela y aguanta lavada tras lavada.' },
-  { titulo: 'Costuras para años', texto: 'Puntada de seguridad, hilo nuevo y agujas para algodón doble punto. Tenemos pijamas de 8 años que siguen en buen estado.' },
+  { titulo: 'Costuras para años', texto: 'Puntada de seguridad, hilo nuevo y agujas para tela de doble punto. Tenemos pijamas de 8 años que siguen en buen estado.' },
   { titulo: 'Diseños propios que se venden solos', texto: 'Nuestro diseñador crea colecciones nuevas cada tres meses. Son diseños tiernos, para toda la familia, que no vas a encontrar en el almacén de al lado.' },
 ];
 
@@ -44,7 +45,7 @@ const pasos = [
 
 const ventajas = [
   ['Ves y tocas la tela antes de comprar', 'En nuestras tiendas de Santafé y Bulevar Niza, o con visita a la fábrica.'],
-  ['Composición certificada', 'Algodón con sello TEKS: lo que dice la etiqueta es lo que lleva la prenda.'],
+  ['Composición certificada', 'Polialgodón con sello TEKS: lo que dice la etiqueta es lo que lleva la prenda.'],
   ['Tintas sin plomo', 'Estampados con tintas certificadas, seguros para niños.'],
   ['Reposición rápida', 'Fabricamos en Bogotá: no esperas semanas por un contenedor.'],
   ['Tallas reales y constantes', 'La talla M de hoy es igual a la del próximo pedido.'],
@@ -61,26 +62,17 @@ const preguntas = [
   { q: '¿Hacen pedidos personalizados o con el logo de mi empresa?', a: 'Sí. Podemos personalizar con nombres, iniciales o el diseño que necesites. Cuéntanos tu idea por WhatsApp y revisamos tiempos y costos.' },
 ];
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: NEGOCIO.nombre,
-  description: 'Fábrica de pijamas en Bogotá. Venta al detal y al por mayor.',
-  url: new URL('/pijamas-al-por-mayor', Astro.site).toString(),
-  location: NEGOCIO.tiendas.map((t) => ({
-    '@type': 'Place',
-    name: `${NEGOCIO.nombre} ${t.centroComercial}`,
-    address: { '@type': 'PostalAddress', streetAddress: `${t.direccion}, ${t.local}`, addressLocality: 'Bogotá', addressCountry: 'CO' },
-  })),
-  sameAs: [NEGOCIO.instagram],
-};
+const ld = [
+  faqLd(preguntas),
+  migas([{ nombre: 'Inicio', ruta: '/' }, { nombre: 'Ventas al por mayor', ruta: '/pijamas-al-por-mayor' }]),
+];
 ---
 <Base
+  ld={ld}
   mensajeWa={MENSAJE_MAYOR}
   title="Pijamas al por mayor directo de fábrica en Bogotá | Tejiendo Sueños"
-  description="Fábrica de pijamas en Bogotá. Surte tu negocio con pijamas de algodón certificado TEKS, diseños propios y tintas sin plomo. Envíos a toda Colombia."
+  description="Fábrica de pijamas en Bogotá. Surte tu negocio con pijamas de polialgodón certificado TEKS, diseños propios y tintas sin plomo. Envíos a toda Colombia."
 >
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
 
 
     <!-- HERO -->
@@ -90,7 +82,7 @@ const jsonLd = {
           <span class="antetitulo">Fábrica colombiana · Venta al por mayor</span>
           <h1>Pijamas al por mayor, directo de nuestra fábrica en Bogotá</h1>
           <p class="hero-sub">
-            Surte tu tienda con pijamas de algodón certificado, diseños propios para toda la familia y
+            Surte tu tienda con pijamas de polialgodón certificado, diseños propios para toda la familia y
             costuras hechas para durar. Calidad que tus clientes sienten apenas las tocan.
           </p>
           <div class="hero-ctas">
@@ -106,7 +98,7 @@ const jsonLd = {
         </div>
       </div>
       <ul class="sellos contenedor" aria-label="Lo que garantiza cada pijama">
-        <li><strong>Tela TEKS</strong><span>algodón colombiano hipoalergénico</span></li>
+        <li><strong>Tela TEKS</strong><span>polialgodón colombiano hipoalergénico</span></li>
         <li><strong>Sin plomo</strong><span>tintas certificadas</span></li>
         <li><strong>Desde {NEGOCIO.fabricaDesde}</strong><span>fabricando en Bogotá</span></li>
         <li><strong>Toda Colombia</strong><span>envíos con Interrapidísimo</span></li>

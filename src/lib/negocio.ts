@@ -5,6 +5,8 @@ export const NEGOCIO = {
   nombre: 'Tejiendo Sueños',
   whatsapp: '573059399326',
   whatsappVisible: '305 939 9326',
+  // Es un solo celular para las dos tiendas (lo contesta la tienda de Santafé).
+  telefono: '+57 305 939 9326',
   // Las dos tiendas. Santafé va primero: es la sede que queremos impulsar.
   tiendas: [
     {
@@ -19,6 +21,11 @@ export const NEGOCIO = {
         { dias: 'Lunes a jueves', horas: '10:30 a. m. – 8:00 p. m.' },
         { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:30 p. m.' },
         { dias: 'Festivos', horas: '11:00 a. m. – 7:00 p. m.' },
+      ],
+      // El mismo horario en formato de máquina (para Google y las IA). Festivos aparte.
+      horarioDatos: [
+        { dias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'], abre: '10:30', cierra: '20:00' },
+        { dias: ['Friday', 'Saturday', 'Sunday'], abre: '10:30', cierra: '20:30' },
       ],
       foto: 'tienda-pijamas-centro-comercial-santafe-fachada-bogota',
       fotoAlt: 'Fachada de la tienda de pijamas Tejiendo Sueños en el Centro Comercial Santafé, Bogotá',
@@ -35,6 +42,10 @@ export const NEGOCIO = {
         { dias: 'Lunes a jueves', horas: '10:30 a. m. – 7:30 p. m.' },
         { dias: 'Viernes a domingo', horas: '10:30 a. m. – 8:00 p. m.' },
         { dias: 'Festivos', horas: '11:00 a. m. – 7:00 p. m.' },
+      ],
+      horarioDatos: [
+        { dias: ['Monday', 'Tuesday', 'Wednesday', 'Thursday'], abre: '10:30', cierra: '19:30' },
+        { dias: ['Friday', 'Saturday', 'Sunday'], abre: '10:30', cierra: '20:00' },
       ],
       foto: 'tienda-pijamas-bulevar-niza-fachada-bogota',
       fotoAlt: 'Fachada de la tienda de pijamas Tejiendo Sueños en el Centro Comercial Bulevar Niza, Bogotá',
@@ -78,3 +89,17 @@ export const CUIDADO = [
   'Usa detergente para ropa delicada y un buen suavizante.',
   'Trata de no lavarla con toallas ni con tenis: así no le salen motas.',
 ];
+
+// La tela. Rocío: tela colombiana TEKS de polialgodón (algodón con poliéster), "la composición
+// que dice la etiqueta es la real". El porcentaje exacto está en la etiqueta de cada prenda.
+export const TELA = {
+  corto: 'polialgodón TEKS',
+  explicacion: 'Nuestras pijamas son de polialgodón: una mezcla de algodón y poliéster de tela colombiana con sello TEKS. El algodón le da la suavidad y la frescura; el poliéster le da la resistencia. Por eso no se estiran ni se encogen, mantienen la forma lavada tras lavada y duran años. La tela es hipoalergénica y la composición que dice la etiqueta es la real.',
+  ventajas: [
+    'Suave desde la primera puesta: el algodón se siente rico en la piel.',
+    'No se estira ni se encoge: la talla que compras es la talla que te queda.',
+    'Resiste el uso diario y el lavado: el poliéster le da cuerpo y resistencia.',
+    'Hipoalergénica, con sello TEKS de calidad.',
+    'Composición real y certificada: lo que dice la etiqueta es lo que lleva la prenda.',
+  ],
+};

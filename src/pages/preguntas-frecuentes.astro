@@ -1,41 +1,89 @@
 ---
 import Base from '../layouts/Base.astro';
 import { ENVIOS, NEGOCIO, PAGOS, CUIDADO } from '../lib/negocio';
+import { faqLd, migas } from '../lib/seo';
+import { TELA, VALOR, DURACION, RESENAS_TEXTO, TIENDAS_TEXTO, ENVIOS_TEXTO, TIPOS, EJEMPLO_FAMILIA, PRECIOS_CLAVE } from '../lib/resumen';
 
-const preguntas = [
-  { q: '¿El precio es por persona o por el set familiar?', a: 'Es por persona. Las tallas de adulto (S a XL) valen $130.000 y las de niño (2 a 16), $95.000. Por ejemplo, la pijama familiar para mamá, papá e hijo cuesta $355.000. Las pantuflas tienen precio por par.' },
-  { q: '¿De qué material son las pijamas?', a: 'De algodón colombiano con sello TEKS, hipoalergénico. No se estira ni se encoge, y la composición de la etiqueta es la real.' },
-  { q: '¿Cuánto duran?', a: 'Años. Tenemos pijamas de 8 años que siguen en buen estado, y a los niños les quedan pequeñas antes de que se dañen. Por eso las costuras tienen garantía de por vida y el estampado, de dos años (no cubre daños por mal lavado).' },
-  { q: '¿Tienen bolsillos?', a: 'Sí, nuestras pijamas tienen bolsillos.' },
-  { q: '¿Qué diseños tienen?', a: 'Diseños propios que renovamos cada tres meses: familiares, navideños, ejecutivas, náuticas y más. También tenemos pijamas con personajes, de superhéroes y de equipos de fútbol.' },
-  { q: '¿Hacen envíos?', a: `${ENVIOS.nacional} ${ENVIOS.bogota}` },
-  { q: '¿Cómo pago?', a: `${PAGOS.tienda} ${PAGOS.distancia}` },
-  { q: '¿Cómo lavo mi pijama para que dure más?', a: CUIDADO.join(' ') },
-  { q: '¿Puedo cambiar la talla?', a: 'Sí, puedes cambiar la pijama por otra talla. Si llega con un defecto, también te la cambiamos. No hacemos devolución de dinero.' },
-  { q: '¿Puedo ir a medírmela?', a: `Claro. Tenemos dos tiendas en Bogotá: ${NEGOCIO.tiendas.map((t) => `${t.centroComercial}, ${t.local}`).join(', y ')}. Ve a la que te quede más cerca.` },
-  { q: '¿Hacen tallas grandes?', a: 'Sí. Si no encuentras tu talla, te hacemos la pijama a la medida.' },
-  { q: '¿Venden al por mayor?', a: 'Sí, somos fábrica y surtimos tiendas en toda Colombia. Mira nuestra página de ventas al por mayor.' },
+// Cada respuesta es completa por sí sola: así la entiende una persona que llega directo a ella
+// y también Google o un asistente de IA que la cite.
+const grupos = [
+  {
+    titulo: 'Dónde comprar',
+    preguntas: [
+      { q: '¿Dónde puedo comprar pijamas Tejiendo Sueños en Bogotá?', a: `${TIENDAS_TEXTO} También puedes pedir por WhatsApp al ${NEGOCIO.whatsappVisible} y te la enviamos.` },
+      { q: '¿Puedo ir a medírmela?', a: `Claro. ${TIENDAS_TEXTO} Ve a la que te quede más cerca: la mejor forma de notar la diferencia es sentir la tela.` },
+      { q: '¿Hacen envíos a otras ciudades de Colombia?', a: ENVIOS_TEXTO },
+      { q: '¿Cómo pago?', a: `${PAGOS.tienda} ${PAGOS.distancia}` },
+    ],
+  },
+  {
+    titulo: 'Precios',
+    preguntas: [
+      { q: '¿El precio es por persona o por el set familiar?', a: `Es por persona. Las tallas de adulto (S a XL) valen $130.000 y las de niño (2 a 16), $95.000. ${EJEMPLO_FAMILIA} Las pantuflas tienen precio por par.` },
+      { q: '¿Cuánto cuesta una pijama Tejiendo Sueños?', a: PRECIOS_CLAVE.map((p) => `${p.que}: ${p.precio}.`).join(' ') },
+      { q: '¿Las pijamas Tejiendo Sueños son caras?', a: VALOR },
+    ],
+  },
+  {
+    titulo: 'Tela y calidad',
+    preguntas: [
+      { q: '¿De qué material son las pijamas?', a: TELA.explicacion },
+      { q: '¿Qué ventajas tiene el polialgodón?', a: TELA.ventajas.join(' ') },
+      { q: '¿Cuánto duran?', a: DURACION },
+      { q: '¿Las pijamas son hechas en Colombia?', a: `Sí. Las hacemos en nuestra fábrica en Bogotá desde ${NEGOCIO.fabricaDesde}, con tela colombiana. Las cosen madres cabeza de familia y cada prenda se revisa a mano. La pijama de seda y las medias térmicas son de proveedores aliados.` },
+      { q: '¿Qué opinan los clientes?', a: RESENAS_TEXTO },
+      { q: '¿Tienen bolsillos?', a: 'Sí, nuestras pijamas tienen bolsillos.' },
+    ],
+  },
+  {
+    titulo: 'Diseños y tallas',
+    preguntas: [
+      { q: '¿Qué tipos de pijamas venden?', a: TIPOS },
+      { q: '¿Qué diseños tienen?', a: 'Diseños propios que renovamos cada tres meses: familiares, navideños, ejecutivas, náuticas y más. También tenemos pijamas divertidas con personajes, de superhéroes y futboleras. Escríbenos qué buscas y te mandamos las fotos de lo que hay hoy.' },
+      { q: '¿Tienen pijamas iguales para toda la familia o para pareja?', a: 'Sí, es lo que más hacemos. Cada diseño familiar viene en tallas de adulto (S a XL) para dama y caballero y en tallas de niño (2 a 16), así que pueden ir iguales papá, mamá, hijos, abuelos o la pareja. Escoges el diseño y la talla de cada uno.' },
+      { q: '¿Tienen pijamas para clima cálido?', a: 'Sí. Además de las de pantalón largo, tenemos pijamas de short, frescas para tierra caliente.' },
+      { q: '¿Hacen tallas grandes?', a: 'Sí. Si no encuentras tu talla, te hacemos la pijama a la medida.' },
+      { q: '¿Hacen pijamas personalizadas?', a: 'Sí: con nombres o iniciales, para eventos como pijamadas, cumpleaños o despedidas, y tallas grandes a la medida. Cuéntanos tu idea por WhatsApp y te confirmamos tiempo y costo.' },
+      { q: '¿Sirven para regalo?', a: 'Sí. Muchos clientes las regalan, y hay quienes las llevan de regalo a familiares que viven en otros países y luego vuelven a comprar para ellos.' },
+    ],
+  },
+  {
+    titulo: 'Cuidado, cambios y garantía',
+    preguntas: [
+      { q: '¿Cómo lavo mi pijama para que dure más?', a: CUIDADO.join(' ') },
+      { q: '¿Puedo cambiar la talla?', a: 'Sí, puedes cambiar la pijama por otra talla. Si llega con un defecto, también te la cambiamos. No hacemos devolución de dinero.' },
+      { q: '¿Qué garantía tienen?', a: 'Las costuras tienen garantía de por vida: si una costura se descose, así haya pasado tiempo, te la arreglamos o te la cambiamos. El estampado tiene garantía de dos años. La garantía no cubre daños por mal lavado.' },
+      { q: '¿Venden al por mayor?', a: 'Sí, somos fábrica y surtimos tiendas en toda Colombia. Mira nuestra página de ventas al por mayor.' },
+    ],
+  },
 ];
-const jsonLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: preguntas.map((p) => ({ '@type': 'Question', name: p.q, acceptedAnswer: { '@type': 'Answer', text: p.a } })) };
+const todas = grupos.flatMap((g) => g.preguntas);
+const ld = [faqLd(todas), migas([{ nombre: 'Inicio', ruta: '/' }, { nombre: 'Preguntas frecuentes', ruta: '/preguntas-frecuentes' }])];
 ---
-<Base title="Preguntas frecuentes | Tejiendo Sueños" description="Precios por persona, material, durabilidad, envíos, cambios y tallas de las pijamas Tejiendo Sueños.">
-  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+<Base ld={ld} title="Preguntas frecuentes | Tejiendo Sueños" description="Dónde comprar, precios por persona, tela de polialgodón TEKS, cuánto duran, opiniones, envíos a toda Colombia, cambios y tallas de las pijamas Tejiendo Sueños.">
   <section class="pagina-cabeza">
     <div class="contenedor">
       <nav class="migas" aria-label="Ruta"><a href="/">Inicio</a> / Preguntas frecuentes</nav>
       <h1>Preguntas frecuentes</h1>
-      <p>Lo que más nos preguntan antes de comprar. Si tu pregunta no está aquí, escríbenos.</p>
+      <p>Lo que más nos preguntan antes de comprar. Si tu pregunta no está aquí, escríbenos. ¿Quieres el resumen? Mira <a href="/por-que-tejiendo-suenos">por qué elegir Tejiendo Sueños</a>.</p>
     </div>
   </section>
   <section class="seccion">
     <div class="contenedor preguntas">
-      {preguntas.map((p, i) => <details open={i === 0}><summary>{p.q}</summary><p>{p.a}</p></details>)}
+      {grupos.map((g, gi) => (
+        <>
+          <h2>{g.titulo}</h2>
+          {g.preguntas.map((p, i) => <details open={gi === 0 && i === 0}><summary>{p.q}</summary><p>{p.a}</p></details>)}
+        </>
+      ))}
     </div>
   </section>
 </Base>
 
 <style>
   .preguntas { max-width: 820px; }
+  .preguntas h2 { margin: 2.2rem 0 .2rem; font-size: 1.5rem; }
+  .preguntas h2:first-child { margin-top: 0; }
   details { border-bottom: 1px solid var(--borde); padding: 1.1rem 0; }
   summary { cursor: pointer; font-family: var(--f-titulo); font-weight: 600; font-size: 1.2rem; color: var(--ciruela); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
   summary::-webkit-details-marker { display: none; }
