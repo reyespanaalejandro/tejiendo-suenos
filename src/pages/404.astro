@@ -1,0 +1,15 @@
+---
+// Página de "no encontrada". Sin ella, el hosting devolvía la página de inicio en cualquier
+// dirección inventada, y Google y las IA veían copias del inicio en direcciones que no existen.
+import Base from '../layouts/Base.astro';
+---
+<Base title="Página no encontrada | Tejiendo Sueños" description="Esta página no existe. Mira nuestras pijamas o escríbenos por WhatsApp.">
+  <meta name="robots" content="noindex" slot="head" />
+  <section class="pagina-cabeza">
+    <div class="contenedor">
+      <h1>Esta página no existe</h1>
+      <p>Puede que el enlace esté viejo o mal escrito. Te dejamos por dónde seguir:</p>
+      <p><a class="boton boton-primario" href="/">Ir al inicio</a> <a class="boton boton-borde" href="/tienda">Ver todas las pijamas</a></p>
+    </div>
+  </section>
+</Base>
